@@ -1,26 +1,29 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+Central Queensland University
+COIT12200 - Software Design & Development (2023 Term 1)
+Campus: External
+Assignment 3 - electronic Waste Management System
+Student ID: 12184305
+Student Name: Daniel Barros
+*/
 package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-/**
- * FXML Controller class
- *
- * @author barro
- */
 public class UserInterfaceController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    public void btnExitClick() {
+        Platform.exit();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
     
 }
