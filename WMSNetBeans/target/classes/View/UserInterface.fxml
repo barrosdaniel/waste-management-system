@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UserInterfaceController">
+   <top>
+      <Pane prefHeight="80.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="87.0" prefWidth="1600.0" style="-fx-background-color: ccc;" text="electronic Waste Management System - eWMS">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <Button layoutX="1420.0" layoutY="24.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" text="🏃   Exit">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </top>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane layoutY="7.0" prefWidth="1600.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="60.0" prefWidth="400.0" text="Customer" GridPane.columnSpan="4">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="16.0" top="16.0" />
+                     </padding>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="👤   Search" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="Customer ID" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="First Name" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Last Name" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Mobile" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Email" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Customer Address ID" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="🏠   Link Address   ⬅" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="Address" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextArea>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Pane prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <children>
+                        <TextField prefWidth="50.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label alignment="CENTER" layoutX="50.0" layoutY="3.0" prefHeight="25.0" prefWidth="48.0" text="of">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="98.0" prefWidth="50.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefHeight="60.0" prefWidth="400.0" text="Address" GridPane.columnIndex="9" GridPane.columnSpan="4">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="16.0" top="16.0" />
+                     </padding>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="🏠   Search" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="➡  Load Address  🏠" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="Address ID" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Line 1" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Line 2" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="State" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Postal Code" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Country" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Address Type" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Year" GridPane.columnIndex="15" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Available Collections" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Pane prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <children>
+                        <TextField prefHeight="25.0" prefWidth="50.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label alignment="CENTER" layoutX="50.0" layoutY="3.0" prefHeight="25.0" prefWidth="48.0" text="of">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="98.0" prefHeight="25.0" prefWidth="50.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefHeight="60.0" prefWidth="400.0" text="Collection Service Request - CSR" GridPane.columnSpan="4" GridPane.rowIndex="11">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="16.0" top="16.0" />
+                     </padding>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="👤   Search" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="❌   Cancel CSR" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="CSR ID" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="15">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Booking Date" GridPane.columnSpan="2" GridPane.rowIndex="16" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <DatePicker GridPane.columnSpan="2" GridPane.rowIndex="17">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </DatePicker>
+                  <Label prefWidth="160.0" text="Collection Date" GridPane.columnSpan="2" GridPane.rowIndex="18" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <DatePicker GridPane.columnSpan="2" GridPane.rowIndex="19">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </DatePicker>
+                  <Label prefWidth="160.0" text="Add Item" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label prefWidth="160.0" text="Item Category" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="16">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Item Type" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="17" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="18">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Item Description" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="19" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="20">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Quantity" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="21" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="22">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   Add Item" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="Remove Item" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label prefWidth="160.0" text="Item Number" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="16">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="-   Remove Item" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="18">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="CSR Summary" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TableView prefHeight="180.0" prefWidth="638.0" GridPane.columnIndex="6" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
+                    <columns>
+                      <TableColumn maxWidth="35.0" minWidth="35.0" prefWidth="35.0" text="#" />
+                      <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Category" />
+                        <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Type" />
+                        <TableColumn maxWidth="335.0" minWidth="335.0" prefWidth="335.0" text="Description" />
+                        <TableColumn maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Quantity" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TableView>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Pane prefWidth="160.0" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                     <children>
+                        <TextField prefWidth="50.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label alignment="CENTER" layoutX="50.0" layoutY="3.0" prefHeight="25.0" prefWidth="48.0" text="of">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="98.0" prefWidth="50.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="12" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+   </center>
+   <bottom>
+      <Label alignment="BOTTOM_CENTER" prefWidth="1600.0" text="Developed by Daniel Barros | 12184305 | COIT12200 Assessment 3" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
