@@ -1,1 +1,1 @@
-"# waste-management-system" 
+# Waste Management System
