@@ -15,6 +15,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 
 public class UserInterfaceController implements Initializable {
 
@@ -23,6 +24,9 @@ public class UserInterfaceController implements Initializable {
         OptionLoader.loadStateComboBoxOptions(cbState);
         OptionLoader.loadCountryComboBoxOptions(cbCountry);
         OptionLoader.loadAddressTypeComboBoxOptions(cbAdressType);
+        OptionLoader.loadYearComboBoxOptions(cbYear);
+        OptionLoader.loadItemCategoryComboBoxOptions(cbItemCategory);
+        lblCancelled.setText("");
     }
     
     @FXML
@@ -45,11 +49,25 @@ public class UserInterfaceController implements Initializable {
     private ComboBox cbCountry;
     @FXML
     private ComboBox cbAdressType;
+    @FXML
+    private ComboBox cbYear;
     
 /*  ==================================================================
     COLLECTION SERVICE REQUEST - CSR
 =================================================================== */
-
+    @FXML
+    private Label lblCancelled;
+    
+    @FXML
+    private ComboBox cbItemCategory;
+    @FXML
+    private ComboBox cbItemType;
+    
+    @FXML
+    public void itemCategorySelect() {
+        OptionLoader.loadItemTypeComboBoxOptions(cbItemCategory, 
+            cbItemType);
+    }
 
     
 }
