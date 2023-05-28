@@ -8,6 +8,7 @@ Student Name: Daniel Barros
 */
 package Controller;
 
+import View.FieldAction;
 import View.OptionLoader;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class UserInterfaceController implements Initializable {
 
@@ -26,6 +29,7 @@ public class UserInterfaceController implements Initializable {
         OptionLoader.loadAddressTypeComboBoxOptions(cbAdressType);
         OptionLoader.loadYearComboBoxOptions(cbYear);
         OptionLoader.loadItemCategoryComboBoxOptions(cbItemCategory);
+        inactivateAllFields();
         lblCancelled.setText("");
     }
     
@@ -34,11 +38,42 @@ public class UserInterfaceController implements Initializable {
         Platform.exit();
     }
     
+    private void inactivateAllFields() {
+        inactivateAllCustomerFields();
+    }
+    
+    private void inactivateAllCustomerFields() {
+        FieldAction.inactivateTextField(tfCustomerID);
+        FieldAction.inactivateTextField(tfFirstName);
+        FieldAction.inactivateTextField(tfLastName);
+        FieldAction.inactivateTextField(tfMobile);
+        FieldAction.inactivateTextField(tfEmail);
+        FieldAction.inactivateTextField(tfCustomerAddressID);
+        FieldAction.inactivateTextArea(taAddress);
+        FieldAction.inactivateTextField(tfCurrentCustomer);
+        FieldAction.inactivateTextField(tfTotalCustomers);
+    }
 /*  ==================================================================
     CUSTOMER
 =================================================================== */
-    
-    
+    @FXML
+    private TextField tfCustomerID;
+    @FXML
+    private TextField tfFirstName;
+    @FXML
+    private TextField tfLastName;
+    @FXML
+    private TextField tfMobile;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private TextField tfCustomerAddressID;
+    @FXML
+    private TextArea taAddress;
+    @FXML
+    private TextField tfCurrentCustomer;
+    @FXML
+    private TextField tfTotalCustomers;
     
 /*  ==================================================================
     ADDRESS

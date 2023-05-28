@@ -136,7 +136,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfCustomerID" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -146,7 +146,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <TextField fx:id="tfFirstName" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -156,7 +156,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                  <TextField fx:id="tfLastName" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -166,7 +166,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfMobile" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -176,7 +176,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <TextField fx:id="tfEmail" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -186,7 +186,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfCustomerAddressID" prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -204,7 +204,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="3">
+                  <TextArea fx:id="taAddress" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -219,7 +219,7 @@
                   </Button>
                   <Pane prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <children>
-                        <TextField prefWidth="50.0">
+                        <TextField fx:id="tfCurrentCustomer" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -229,7 +229,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="98.0" prefWidth="50.0">
+                        <TextField fx:id="tfTotalCustomers" layoutX="98.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
