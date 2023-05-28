@@ -311,7 +311,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfAddressID" prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -321,7 +321,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
+                  <TextField fx:id="tfLine1" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -331,7 +331,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
+                  <TextField fx:id="tfLine2" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -351,7 +351,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <TextField fx:id="tfPostalCode" prefWidth="160.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -391,7 +391,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                  <TextField fx:id="tfAvailableCollections" prefWidth="160.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -406,7 +406,7 @@
                   </Button>
                   <Pane prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <children>
-                        <TextField prefHeight="25.0" prefWidth="50.0">
+                        <TextField fx:id="tfCurrentAddress" prefHeight="25.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -416,7 +416,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="98.0" prefHeight="25.0" prefWidth="50.0">
+                        <TextField fx:id="tfTotalAddresses" layoutX="98.0" prefHeight="25.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>

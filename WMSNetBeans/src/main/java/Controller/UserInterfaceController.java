@@ -30,7 +30,6 @@ public class UserInterfaceController implements Initializable {
         OptionLoader.loadYearComboBoxOptions(cbYear);
         OptionLoader.loadItemCategoryComboBoxOptions(cbItemCategory);
         inactivateAllFields();
-        lblCancelled.setText("");
     }
     
     @FXML
@@ -39,20 +38,11 @@ public class UserInterfaceController implements Initializable {
     }
     
     private void inactivateAllFields() {
+        lblCancelled.setText("");
         inactivateAllCustomerFields();
+        inactivateAllAddressFields();
     }
     
-    private void inactivateAllCustomerFields() {
-        FieldAction.inactivateTextField(tfCustomerID);
-        FieldAction.inactivateTextField(tfFirstName);
-        FieldAction.inactivateTextField(tfLastName);
-        FieldAction.inactivateTextField(tfMobile);
-        FieldAction.inactivateTextField(tfEmail);
-        FieldAction.inactivateTextField(tfCustomerAddressID);
-        FieldAction.inactivateTextArea(taAddress);
-        FieldAction.inactivateTextField(tfCurrentCustomer);
-        FieldAction.inactivateTextField(tfTotalCustomers);
-    }
 /*  ==================================================================
     CUSTOMER
 =================================================================== */
@@ -75,17 +65,57 @@ public class UserInterfaceController implements Initializable {
     @FXML
     private TextField tfTotalCustomers;
     
+    private void inactivateAllCustomerFields() {
+        FieldAction.inactivateTextField(tfCustomerID);
+        FieldAction.inactivateTextField(tfFirstName);
+        FieldAction.inactivateTextField(tfLastName);
+        FieldAction.inactivateTextField(tfMobile);
+        FieldAction.inactivateTextField(tfEmail);
+        FieldAction.inactivateTextField(tfCustomerAddressID);
+        FieldAction.inactivateTextArea(taAddress);
+        FieldAction.inactivateTextField(tfCurrentCustomer);
+        FieldAction.inactivateTextField(tfTotalCustomers);
+    }
+    
 /*  ==================================================================
     ADDRESS
 =================================================================== */
     @FXML
-    private ComboBox cbState;
+    private TextField tfAddressID;
+    @FXML
+    private TextField tfLine1;
+    @FXML
+    private TextField tfLine2;
+    @FXML
+    private ComboBox cbState;    
+    @FXML
+    private TextField tfPostalCode;
     @FXML
     private ComboBox cbCountry;
     @FXML
     private ComboBox cbAdressType;
     @FXML
     private ComboBox cbYear;
+    @FXML
+    private TextField tfAvailableCollections;
+    @FXML
+    private TextField tfCurrentAddress;
+    @FXML
+    private TextField tfTotalAddresses;
+    
+    private void inactivateAllAddressFields() {
+        FieldAction.inactivateTextField(tfAddressID);
+        FieldAction.inactivateTextField(tfLine1);
+        FieldAction.inactivateTextField(tfLine2);
+        FieldAction.inactivateComboBox(cbState);
+        FieldAction.inactivateTextField(tfPostalCode);
+        FieldAction.inactivateComboBox(cbCountry);
+        FieldAction.inactivateComboBox(cbAdressType);
+        FieldAction.inactivateComboBox(cbYear);
+        FieldAction.inactivateTextField(tfAvailableCollections);
+        FieldAction.inactivateTextField(tfCurrentAddress);
+        FieldAction.inactivateTextField(tfTotalAddresses);
+    }
     
 /*  ==================================================================
     COLLECTION SERVICE REQUEST - CSR
