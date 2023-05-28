@@ -8,6 +8,7 @@ Student Name: Daniel Barros
 */
 package Controller;
 
+import Model.Address;
 import Model.Customer;
 import View.FieldAction;
 import View.OptionLoader;
@@ -39,6 +40,7 @@ public class UserInterfaceController implements Initializable {
         OptionLoader.loadItemCategoryComboBoxOptions(cbItemCategory);
         inactivateAllFields();
         loadAllCustomersFromDB();
+        loadAllAddressesFromDB();
     }
     
     @FXML
@@ -166,6 +168,7 @@ public class UserInterfaceController implements Initializable {
     }
     
     private String getAddressString(String customerAddressID) {
+        //TODO: Get this string programatically from addressesList
         String addressString = "3 Pistachio Way\n\n" 
                 + "Eglinton WA 6034\n"
                 + "Australia";
@@ -180,24 +183,38 @@ public class UserInterfaceController implements Initializable {
 /*  ==================================================================
     ADDRESS
 =================================================================== */
+    private ArrayList<Address> addressList= new ArrayList();
+    private ArrayList<Address> tempAddressList= new ArrayList();
+    private int currentAddress;
+    private int totalAddresses;
+    private DataSet addressSet;
     @FXML
     private TextField tfAddressID;
+    private String addressID;
     @FXML
     private TextField tfLine1;
+    private String line1;
     @FXML
     private TextField tfLine2;
+    private String line2;
     @FXML
     private ComboBox cbState;    
+    private String state;
     @FXML
     private TextField tfPostalCode;
+    private String postalCode;
     @FXML
     private ComboBox cbCountry;
+    private String country;
     @FXML
     private ComboBox cbAdressType;
+    private String addressType;
     @FXML
     private ComboBox cbYear;
+    private String year;
     @FXML
     private TextField tfAvailableCollections;
+    private int availableCollections;
     @FXML
     private TextField tfCurrentAddress;
     @FXML
@@ -215,6 +232,82 @@ public class UserInterfaceController implements Initializable {
         FieldAction.inactivateTextField(tfAvailableCollections);
         FieldAction.inactivateTextField(tfCurrentAddress);
         FieldAction.inactivateTextField(tfTotalAddresses);
+    }
+    
+    private void loadAllAddressesFromDB(){
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * "
+                    + "FROM addresses "
+                    + "ORDER BY address_id;"
+            );
+            ResultSet queryResults = statement.executeQuery();
+            while (queryResults.next()) {
+                addressID = queryResults.getString("address_id");
+                line1 = queryResults.getString("line_1");
+                line2 = queryResults.getString("line_2");
+                state = queryResults.getString("state");
+                postalCode = queryResults.getString("postal_code");
+                country = queryResults.getString("country");
+                addressType = queryResults.getString("address_type");
+                Address newAddress = makeNewAddressObject();
+                addressList.add(newAddress);
+            }
+            statement.close();
+            queryResults.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database Error", "ERROR: Unable to load "
+                    + "addresses from the database.");
+        }
+    }
+    
+    private Address makeNewAddressObject() {
+        return new Address(
+                addressID,
+                line1,
+                line2,
+                state,
+                postalCode,
+                country,
+                addressType
+        );
+    }
+    
+    @FXML
+    public void btnViewAllAddressesClick() {
+        addressSet = DataSet.FULL_SET;
+        inactivateAllAddressFields();
+        if (addressList.size() > 0) {
+            currentAddress = 0;
+            totalAddresses = addressList.size();
+            displayAddressRecord(currentAddress);
+            refreshAddressPaginationNumbers();
+        }
+    }
+    
+    private void displayAddressRecord(int index) {
+        Address address;
+        if (addressSet.equals(DataSet.FULL_SET)) {
+            address = addressList.get(index);
+        } else {
+            address = tempAddressList.get(index);
+        }
+        tfAddressID.setText(address.getAddressID());
+        tfLine1.setText(address.getLine1());
+        tfLine2.setText(address.getLine2());
+        cbState.setValue(address.getState());
+        cbState.setStyle("-fx-opacity: 1.0");
+        tfPostalCode.setText(address.getPostalCode());
+        cbCountry.setValue(address.getCountry());
+        cbCountry.setStyle("-fx-opacity: 1.0");
+        cbAdressType.setValue(address.getAddressType());
+        cbAdressType.setStyle("-fx-opacity: 1.0");
+    }
+    
+    private void refreshAddressPaginationNumbers() {
+        tfCurrentAddress.setText(currentAddress + 1 + "");
+        tfTotalAddresses.setText(totalAddresses + "");
     }
     
 /*  ==================================================================
