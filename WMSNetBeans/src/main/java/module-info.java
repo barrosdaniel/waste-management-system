@@ -4,6 +4,7 @@ module WMS {
     requires java.base;
 
     opens WMS to javafx.fxml;
+    opens Controller to javafx.fxml;
     exports WMS;
     exports Controller;
 }
