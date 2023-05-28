@@ -1,18 +1,18 @@
 USE `ewmsdb`;
 
 INSERT INTO `addresses` 
-(`line_1`, `line_2`, `state`, `postal_code`, `country`, `address_type`)
+(`street_address`, `suburb`, `state`, `postal_code`, `country`, `address_type`)
 VALUES
-('1 Main Street', 'Apt 4B', 'New South Wales', '2000', 'Australia', 'Residential'),
-('100 Elm Avenue', NULL, 'Victoria', '3000', 'Australia', 'Commercial'),
-('321 Oak Lane', 'Unit 2', 'Queensland', '4000', 'Australia', 'Residential'),
-('123 Maple Court', NULL, 'Queensland', '4000', 'Australia', 'Commercial'),
-('555 Pine Road', NULL, 'New South Wales', '2000', 'Australia', 'Residential'),
-('777 Cedar Street', 'Suite 100', 'Victoria', '3000', 'Australia', 'Commercial'),
-('555 Birch Avenue', NULL, 'Queensland', '4000', 'Australia', 'Residential'),
-('97 Willow Lane', NULL, 'Victoria', '3000', 'Australia', 'Commercial'),
-('32 Juniper Court', NULL, 'New South Wales', '2000', 'Australia', 'Residential'),
-('15 Spruce Road', 'Suite 50', 'Queensland', '4000', 'Australia', 'Commercial');
+('1 Main Street', 'Prendiville', 'NSW', '2000', 'Australia', 'Residential'),
+('100 Elm Avenue', 'Simpsonfield', 'Victoria', '3000', 'Australia', 'Commercial'),
+('321 Oak Lane', 'Yelp River', 'Queensland', '4000', 'Australia', 'Residential'),
+('123 Maple Court', 'Highcourt', 'Queensland', '4000', 'Australia', 'Commercial'),
+('555 Pine Road', 'Zamien', 'New South Wales', '2000', 'Australia', 'Residential'),
+('777 Cedar Street', 'Ingridly', 'Victoria', '3000', 'Australia', 'Commercial'),
+('555 Birch Avenue', 'North York', 'Queensland', '4000', 'Australia', 'Residential'),
+('97 Willow Lane', 'Harrows', 'Victoria', '3000', 'Australia', 'Commercial'),
+('32 Juniper Court', 'Bridgeville', 'New South Wales', '2000', 'Australia', 'Residential'),
+('15 Spruce Road', 'Kent Town', 'Queensland', '4000', 'Australia', 'Commercial');
 
 INSERT INTO `customers` 
 (`first_name`, `last_name`, `mobile`, `email`, `customer_adress_id`)

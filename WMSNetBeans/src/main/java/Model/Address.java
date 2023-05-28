@@ -2,17 +2,18 @@ package Model;
 
 public class Address {
     private String addressID;
-    private String line1;
-    private String line2;
+    private String streetAddress;
+    private String suburb;
     private String state;
     private String postalCode;
     private String country;
     private String addressType;
 
-    public Address(String addressID, String line1, String line2, String state, String postalCode, String country, String addressType) {
+    public Address(String addressID, String streetAddress, String suburb, 
+            String state, String postalCode, String country, String addressType) {
         this.addressID = addressID;
-        this.line1 = line1;
-        this.line2 = line2;
+        this.streetAddress = streetAddress;
+        this.suburb = suburb;
         this.state = state;
         this.postalCode = postalCode;
         this.country = country;
@@ -27,20 +28,20 @@ public class Address {
         this.addressID = addressID;
     }
 
-    public String getLine1() {
-        return line1;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setLine1(String line1) {
-        this.line1 = line1;
+    public void setLine1(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
-    public String getLine2() {
-        return line2;
+    public String getSuburb() {
+        return suburb;
     }
 
-    public void setLine2(String line2) {
-        this.line2 = line2;
+    public void setLine2(String suburb) {
+        this.suburb = suburb;
     }
 
     public String getState() {
@@ -74,11 +75,18 @@ public class Address {
     public void setAddressType(String addressType) {
         this.addressType = addressType;
     }
+    
+    public String getString() {
+        return streetAddress + "\n" + 
+                suburb + " " + state + " " + postalCode + "\n" + 
+                country;
+                
+    }
 
     @Override
     public String toString() {
         return "Address{" + "addressID=" + addressID 
-                + ", line1=" + line1 + ", line2=" + line2 
+                + ", line1=" + streetAddress + ", line2=" + suburb 
                 + ", state=" + state + ", postalCode=" + postalCode 
                 + ", country=" + country + ", addressType=" + addressType + '}';
     }

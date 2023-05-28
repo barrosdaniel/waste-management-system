@@ -2,8 +2,8 @@ USE `ewmsdb`;
 
 CREATE TABLE `ewmsdb`.`addresses` (
   `address_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `line_1` VARCHAR(64) NOT NULL,
-  `line_2` VARCHAR(64) NULL,
+  `street_address` VARCHAR(64) NOT NULL,
+  `suburb` VARCHAR(64) NULL,
   `state` VARCHAR(32) NOT NULL,
   `postal_code` VARCHAR(32) NOT NULL,
   `country` VARCHAR(32) NOT NULL,

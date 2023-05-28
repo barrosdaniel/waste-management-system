@@ -308,22 +308,22 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label prefWidth="160.0" text="Line 1" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                  <Label prefWidth="160.0" text="Street Address" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField fx:id="tfLine1" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
+                  <TextField fx:id="tfStreetAddress" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label prefWidth="160.0" text="Line 2" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                  <Label prefWidth="160.0" text="Suburb" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField fx:id="tfLine2" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
+                  <TextField fx:id="tfSuburb" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>

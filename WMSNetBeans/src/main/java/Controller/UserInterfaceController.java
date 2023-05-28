@@ -168,10 +168,15 @@ public class UserInterfaceController implements Initializable {
     }
     
     private String getAddressString(String customerAddressID) {
-        //TODO: Get this string programatically from addressesList
-        String addressString = "3 Pistachio Way\n\n" 
-                + "Eglinton WA 6034\n"
-                + "Australia";
+        String addressString = "";
+        for (Address address : addressList) {
+            System.out.println(address.getString());
+            if (address.getAddressID().equals(customerAddressID)) {
+                addressString = address.getString();
+                System.out.println(addressString);
+                System.out.println("FOUND!");
+            }
+        }
         return addressString;
     }
     
@@ -192,11 +197,11 @@ public class UserInterfaceController implements Initializable {
     private TextField tfAddressID;
     private String addressID;
     @FXML
-    private TextField tfLine1;
-    private String line1;
+    private TextField tfStreetAddress;
+    private String streetAddress;
     @FXML
-    private TextField tfLine2;
-    private String line2;
+    private TextField tfSuburb;
+    private String suburb;
     @FXML
     private ComboBox cbState;    
     private String state;
@@ -222,8 +227,8 @@ public class UserInterfaceController implements Initializable {
     
     private void inactivateAllAddressFields() {
         FieldAction.inactivateTextField(tfAddressID);
-        FieldAction.inactivateTextField(tfLine1);
-        FieldAction.inactivateTextField(tfLine2);
+        FieldAction.inactivateTextField(tfStreetAddress);
+        FieldAction.inactivateTextField(tfSuburb);
         FieldAction.inactivateComboBox(cbState);
         FieldAction.inactivateTextField(tfPostalCode);
         FieldAction.inactivateComboBox(cbCountry);
@@ -244,8 +249,8 @@ public class UserInterfaceController implements Initializable {
             ResultSet queryResults = statement.executeQuery();
             while (queryResults.next()) {
                 addressID = queryResults.getString("address_id");
-                line1 = queryResults.getString("line_1");
-                line2 = queryResults.getString("line_2");
+                streetAddress = queryResults.getString("street_address");
+                suburb = queryResults.getString("suburb");
                 state = queryResults.getString("state");
                 postalCode = queryResults.getString("postal_code");
                 country = queryResults.getString("country");
@@ -265,8 +270,8 @@ public class UserInterfaceController implements Initializable {
     private Address makeNewAddressObject() {
         return new Address(
                 addressID,
-                line1,
-                line2,
+                streetAddress,
+                suburb,
                 state,
                 postalCode,
                 country,
@@ -294,8 +299,8 @@ public class UserInterfaceController implements Initializable {
             address = tempAddressList.get(index);
         }
         tfAddressID.setText(address.getAddressID());
-        tfLine1.setText(address.getLine1());
-        tfLine2.setText(address.getLine2());
+        tfStreetAddress.setText(address.getStreetAddress());
+        tfSuburb.setText(address.getSuburb());
         cbState.setValue(address.getState());
         cbState.setStyle("-fx-opacity: 1.0");
         tfPostalCode.setText(address.getPostalCode());
