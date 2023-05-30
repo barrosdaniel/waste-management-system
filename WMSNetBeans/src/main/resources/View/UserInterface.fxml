@@ -209,7 +209,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnPreviousCustomerClick" prefWidth="160.0" text="⬅   Previous" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -239,7 +239,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Pane>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnNextCustomerClick" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -388,7 +388,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnPreviousAddressClick" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -418,7 +418,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Pane>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnNextAddressClick" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>

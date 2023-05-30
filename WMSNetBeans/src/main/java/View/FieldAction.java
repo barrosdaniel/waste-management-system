@@ -31,6 +31,4 @@ public class FieldAction {
         tv.setEditable(false);
         tv.setStyle("-fx-control-inner-background: #F1F1F1;");
     }
-    
-    
 }

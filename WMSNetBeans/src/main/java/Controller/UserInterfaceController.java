@@ -170,11 +170,8 @@ public class UserInterfaceController implements Initializable {
     private String getAddressString(String customerAddressID) {
         String addressString = "";
         for (Address address : addressList) {
-            System.out.println(address.getString());
             if (address.getAddressID().equals(customerAddressID)) {
                 addressString = address.getString();
-                System.out.println(addressString);
-                System.out.println("FOUND!");
             }
         }
         return addressString;
@@ -183,6 +180,30 @@ public class UserInterfaceController implements Initializable {
     private void refreshCustomerPaginationNumbers() {
         tfCurrentCustomer.setText(currentCustomer + 1 + "");
         tfTotalCustomers.setText(totalCustomers + "");
+    }
+    
+    @FXML
+    public void btnPreviousCustomerClick() {
+        inactivateAllCustomerFields();
+        if (currentCustomer == 0) {
+            currentCustomer = totalCustomers - 1;
+        } else {
+            currentCustomer--;
+        }
+        displayCustomerRecord(currentCustomer);
+        refreshCustomerPaginationNumbers();
+    }
+    
+    @FXML
+    public void btnNextCustomerClick() {
+        inactivateAllCustomerFields();
+        if (currentCustomer + 1 == totalCustomers) {
+            currentCustomer = 0;
+        } else {
+            currentCustomer++;
+        }
+        displayCustomerRecord(currentCustomer);
+        refreshCustomerPaginationNumbers();
     }
     
 /*  ==================================================================
@@ -313,6 +334,30 @@ public class UserInterfaceController implements Initializable {
     private void refreshAddressPaginationNumbers() {
         tfCurrentAddress.setText(currentAddress + 1 + "");
         tfTotalAddresses.setText(totalAddresses + "");
+    }
+    
+    @FXML
+    public void btnPreviousAddressClick() {
+        inactivateAllAddressFields();
+        if (currentAddress == 0) {
+            currentAddress = totalAddresses - 1;
+        } else {
+            currentAddress--;
+        }
+        displayAddressRecord(currentAddress);
+        refreshAddressPaginationNumbers();
+    }
+    
+    @FXML
+    public void btnNextAddressClick() {
+        inactivateAllAddressFields();
+        if (currentAddress + 1 == totalAddresses) {
+            currentAddress = 0;
+        } else {
+            currentAddress++;
+        }
+        displayAddressRecord(currentAddress);
+        refreshAddressPaginationNumbers();
     }
     
 /*  ==================================================================
