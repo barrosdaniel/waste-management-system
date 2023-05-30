@@ -2,8 +2,8 @@ USE `ewmsdb`;
 
 CREATE TABLE `ewmsdb`.`addresses` (
   `address_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `line_1` VARCHAR(64) NOT NULL,
-  `line_2` VARCHAR(64) NULL,
+  `street_address` VARCHAR(64) NOT NULL,
+  `suburb` VARCHAR(64) NULL,
   `state` VARCHAR(32) NOT NULL,
   `postal_code` VARCHAR(32) NOT NULL,
   `country` VARCHAR(32) NOT NULL,
@@ -17,12 +17,12 @@ CREATE TABLE `ewmsdb`.`customers` (
   `last_name` VARCHAR(64) NOT NULL,
   `mobile` VARCHAR(64) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
-  `customer_adress_id` INT UNSIGNED NOT NULL,
+  `customer_address_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE INDEX `customer_id_UNIQUE` (`customer_id` ASC) VISIBLE,
-  INDEX `FK_address_id_idx` (`customer_adress_id` ASC) VISIBLE,
+  INDEX `FK_address_id_idx` (`customer_address_id` ASC) VISIBLE,
   CONSTRAINT `FK_address_id`
-    FOREIGN KEY (`customer_adress_id`)
+    FOREIGN KEY (`customer_address_id`)
     REFERENCES `ewmsdb`.`addresses` (`address_id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT);
@@ -31,9 +31,21 @@ CREATE TABLE `ewmsdb`.`collections` (
   `collection_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `booking_date` DATE NOT NULL,
   `collection_date` DATE NOT NULL,
+  `csr_customer_id` INT UNSIGNED NOT NULL,
+  `csr_address_id` INT UNSIGNED NOT NULL,
   `cancelled` TINYINT NOT NULL,
   PRIMARY KEY (`collection_id`),
-  UNIQUE INDEX `collection_id_UNIQUE` (`collection_id` ASC) VISIBLE);
+  UNIQUE INDEX `collection_id_UNIQUE` (`collection_id` ASC) VISIBLE,
+  INDEX `FK_csr_customer_id_idx` (`csr_customer_id` ASC) VISIBLE,
+  INDEX `FK_csr_address_id_idx` (`csr_address_id` ASC) VISIBLE,
+  FOREIGN KEY (`csr_customer_id`)
+    REFERENCES `ewmsdb`.`customers` (`customer_id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
+  FOREIGN KEY (`csr_address_id`)
+    REFERENCES `ewmsdb`.`addresses` (`address_id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT);
 
 CREATE TABLE `ewmsdb`.`items` (
   `item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,

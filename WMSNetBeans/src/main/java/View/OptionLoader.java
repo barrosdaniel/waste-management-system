@@ -22,8 +22,8 @@ public class OptionLoader {
         cbCountry.getItems().addAll("Australia");
     }
     
-    public static void loadAddressTypeComboBoxOptions(ComboBox cbAdressType){
-        cbAdressType.getItems().addAll(
+    public static void loadAddressTypeComboBoxOptions(ComboBox cbAddressType){
+        cbAddressType.getItems().addAll(
                 "Residential",
                 "Commercial");
     }

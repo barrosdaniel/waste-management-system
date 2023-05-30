@@ -1,1 +1,14 @@
+View\OptionLoader.class
 WMS\WMSApp.class
+View\UserAlert.class
+Controller\SaveAction.class
+Model\Customer.class
+Model\Address.class
+Controller\DatabaseHandler.class
+Model\Collection.class
+module-info.class
+Controller\DataValidation.class
+View\FieldAction.class
+Model\CollectionItem.class
+Controller\UserInterfaceController.class
+Controller\DataSet.class

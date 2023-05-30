@@ -99,7 +99,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnViewAllCustomersClick" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -136,7 +136,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfCustomerID" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -146,7 +146,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <TextField fx:id="tfFirstName" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -156,7 +156,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                  <TextField fx:id="tfLastName" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -166,7 +166,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfMobile" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -176,7 +176,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <TextField fx:id="tfEmail" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -186,12 +186,12 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfCustomerAddressID" prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="🏠   Link Address   ⬅" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <Button mnemonicParsing="false" onAction="#btnViewAddressClick" prefWidth="160.0" text="🏠  View Address  ➡" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -204,12 +204,12 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="3">
+                  <TextArea fx:id="taAddress" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnPreviousCustomerClick" prefWidth="160.0" text="⬅   Previous" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -219,7 +219,7 @@
                   </Button>
                   <Pane prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <children>
-                        <TextField prefWidth="50.0">
+                        <TextField fx:id="tfCurrentCustomer" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -229,7 +229,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="98.0" prefWidth="50.0">
+                        <TextField fx:id="tfTotalCustomers" layoutX="98.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -239,7 +239,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Pane>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnNextCustomerClick" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -266,7 +266,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnViewAllAddressesClick" prefWidth="160.0" text="📄   View All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -282,7 +282,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnNewAddressClick" prefWidth="160.0" text="+   New" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -298,7 +298,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="➡  Load Address  🏠" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <Button mnemonicParsing="false" onAction="#btnViewAddressClick" prefWidth="160.0" text="⬅   Fill Address   🏠" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -311,27 +311,27 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <TextField fx:id="tfAddressID" prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label prefWidth="160.0" text="Line 1" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                  <Label prefWidth="160.0" text="Street Address" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
+                  <TextField fx:id="tfStreetAddress" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label prefWidth="160.0" text="Line 2" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                  <Label prefWidth="160.0" text="Suburb" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
+                  <TextField fx:id="tfSuburb" prefWidth="160.0" GridPane.columnIndex="9" GridPane.columnSpan="4" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -351,7 +351,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <TextField fx:id="tfPostalCode" prefWidth="160.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -371,7 +371,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <ComboBox fx:id="cbAdressType" prefWidth="150.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <ComboBox fx:id="cbAddressType" prefWidth="150.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -391,12 +391,12 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                  <TextField fx:id="tfAvailableCollections" prefWidth="160.0" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnPreviousAddressClick" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -406,7 +406,7 @@
                   </Button>
                   <Pane prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <children>
-                        <TextField prefHeight="25.0" prefWidth="50.0">
+                        <TextField fx:id="tfCurrentAddress" prefHeight="25.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -416,7 +416,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="98.0" prefHeight="25.0" prefWidth="50.0">
+                        <TextField fx:id="tfTotalAddresses" layoutX="98.0" prefHeight="25.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -426,7 +426,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Pane>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnNextAddressClick" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -493,12 +493,20 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
+                  <Label fx:id="lblCancelled" alignment="CENTER" prefWidth="400.0" text="CANCELLED" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="46.0" />
+                     </font>
+                  </Label>
                   <Label prefWidth="160.0" text="CSR ID" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="15">
+                  <TextField fx:id="tfCSRID" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="15">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -508,7 +516,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker GridPane.columnSpan="2" GridPane.rowIndex="17">
+                  <DatePicker fx:id="dpBookingDate" GridPane.columnSpan="2" GridPane.rowIndex="17">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -518,11 +526,31 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker GridPane.columnSpan="2" GridPane.rowIndex="19">
+                  <DatePicker fx:id="dpCollectionDate" GridPane.columnSpan="2" GridPane.rowIndex="19">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </DatePicker>
+                  <Label prefWidth="160.0" text="CSR Customer ID" GridPane.columnSpan="2" GridPane.rowIndex="20" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfCSRID1" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="21">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="CSR Address ID" GridPane.columnSpan="2" GridPane.rowIndex="22" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfCSRID11" prefWidth="160.0" GridPane.columnSpan="2" GridPane.rowIndex="23">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
                   <Label prefWidth="160.0" text="Add Item" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="14.0" />
@@ -556,7 +584,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="20">
+                  <TextField fx:id="tfItemDescription" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="20">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -566,7 +594,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="22">
+                  <TextField fx:id="tfQuantity" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="22">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -592,7 +620,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="16">
+                  <TextField fx:id="tfItemNumber" prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="16">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -613,7 +641,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TableView prefHeight="180.0" prefWidth="638.0" GridPane.columnIndex="6" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
+                  <TableView fx:id="tvCSRSummary" prefHeight="180.0" prefWidth="638.0" GridPane.columnIndex="6" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
                     <columns>
                       <TableColumn maxWidth="35.0" minWidth="35.0" prefWidth="35.0" text="#" />
                       <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Category" />
@@ -635,7 +663,7 @@
                   </Button>
                   <Pane prefWidth="160.0" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <children>
-                        <TextField prefWidth="50.0">
+                        <TextField fx:id="tfCurrentCSR" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -645,7 +673,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="98.0" prefWidth="50.0">
+                        <TextField fx:id="tfTotalCSRs" layoutX="98.0" prefWidth="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -671,14 +699,6 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label fx:id="lblCancelled" text="CANCELLED" textFill="RED" GridPane.columnSpan="2" GridPane.rowIndex="21">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
                </children>
             </GridPane>
          </children>
