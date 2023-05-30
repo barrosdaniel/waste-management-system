@@ -38,6 +38,8 @@ public class UserInterfaceController implements Initializable {
         OptionLoader.loadAddressTypeComboBoxOptions(cbAdressType);
         OptionLoader.loadYearComboBoxOptions(cbYear);
         OptionLoader.loadItemCategoryComboBoxOptions(cbItemCategory);
+        customerSet = DataSet.FULL_SET;
+        addressSet = DataSet.FULL_SET;
         inactivateAllFields();
         loadAllCustomersFromDB();
         loadAllAddressesFromDB();
@@ -180,6 +182,21 @@ public class UserInterfaceController implements Initializable {
     private void refreshCustomerPaginationNumbers() {
         tfCurrentCustomer.setText(currentCustomer + 1 + "");
         tfTotalCustomers.setText(totalCustomers + "");
+    }
+    
+    @FXML
+    public void btnViewAddressClick() {
+        customerAddressID = tfCustomerAddressID.getText();
+        if (!DataValidation.isEmpty(customerAddressID)) {
+            for (int i = 0; i < addressList.size(); i++) {
+                if (addressList.get(i).getAddressID().equals(customerAddressID)) {
+                    displayAddressRecord(i);
+                }
+            }
+        } else {
+            UserAlert.displayWarningAlert("No customer selected.", "To "
+                    + "view an address, you need to select a customer. ");
+        }
     }
     
     @FXML

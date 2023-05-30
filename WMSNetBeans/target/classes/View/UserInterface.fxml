@@ -191,7 +191,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="🏠  View Address  ➡" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <Button mnemonicParsing="false" onAction="#btnViewAddressClick" prefWidth="160.0" text="🏠  View Address  ➡" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>

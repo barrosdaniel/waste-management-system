@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controller;
 
-/**
- *
- * @author barro
- */
+
 public class DataValidation {
-    
+    public static boolean isEmpty(String inputString) {
+        if (inputString.isEmpty() || inputString.isBlank() ||
+                        inputString == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
