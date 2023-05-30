@@ -191,6 +191,8 @@ public class UserInterfaceController implements Initializable {
             for (int i = 0; i < addressList.size(); i++) {
                 if (addressList.get(i).getAddressID().equals(customerAddressID)) {
                     displayAddressRecord(i);
+                    currentAddress = i;
+                    tfCurrentAddress.setText(currentAddress + 1 + "");
                 }
             }
         } else {
