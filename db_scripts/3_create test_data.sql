@@ -15,7 +15,7 @@ VALUES
 ('15 Spruce Road', 'Kent Town', 'Queensland', '4000', 'Australia', 'Commercial');
 
 INSERT INTO `customers` 
-(`first_name`, `last_name`, `mobile`, `email`, `customer_adress_id`)
+(`first_name`, `last_name`, `mobile`, `email`, `customer_address_id`)
 VALUES
 ('John', 'Doe', '0411222333', 'john@example.com', 1),
 ('Jane', 'Smith', '0435333555', 'jane@example.com', 2),
@@ -29,18 +29,18 @@ VALUES
 ('Lauren', 'Anderson', '0478787878', 'lauren@example.com', 10);
 
 INSERT INTO `collections`
-(`booking_date`, `collection_date`, `cancelled`)
+(`booking_date`, `collection_date`, `csr_customer_id`,`csr_address_id`, `cancelled`)
 VALUES
-('2023-06-01', '2023-06-15', 0),
-('2023-06-02', '2023-06-16', 0),
-('2023-06-03', '2023-06-17', 0),
-('2023-06-04', '2023-06-18', 1),
-('2023-06-05', '2023-06-19', 0),
-('2023-06-06', '2023-06-20', 0),
-('2023-06-07', '2023-06-21', 0),
-('2023-06-08', '2023-06-22', 1),
-('2023-06-09', '2023-06-23', 0),
-('2023-06-10', '2023-06-24', 0);
+('2023-06-01', '2023-06-15',1 ,1, 0),
+('2023-06-02', '2023-06-16',2 ,2, 0),
+('2023-06-03', '2023-06-17',3 ,3, 0),
+('2023-06-04', '2023-06-18',4 ,4, 1),
+('2023-06-05', '2023-06-19',5 ,5, 0),
+('2023-06-06', '2023-06-20',6 ,6, 0),
+('2023-06-07', '2023-06-21',7 ,7, 0),
+('2023-06-08', '2023-06-22',8 ,8, 1),
+('2023-06-09', '2023-06-23',9 ,9, 0),
+('2023-06-10', '2023-06-24',10 ,10, 0);
 
 INSERT INTO `items` 
 (`item_collection_id`, `category`, `type`, `description`, `quantity`)

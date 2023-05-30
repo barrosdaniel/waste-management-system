@@ -12,6 +12,11 @@ public class FieldAction {
         tf.setStyle("-fx-control-inner-background: #F1F1F1;");
     }
     
+    public static void activateTextField(TextField tf) {
+        tf.setEditable(true);
+        tf.setStyle("-fx-control-inner-background: #FFFFFF;");
+    }
+    
     public static void inactivateTextArea(TextArea ta) {
         ta.setEditable(false);
         ta.setStyle("-fx-control-inner-background: #F1F1F1;");
@@ -22,13 +27,28 @@ public class FieldAction {
         cb.setStyle("-fx-control-inner-background: #F1F1F1;");
     }
     
+    public static void activateComboBox(ComboBox cb) {
+        cb.setDisable(false);
+        cb.setStyle("-fx-control-inner-background: #FFFFFF;");
+    }
+    
     public static void inactivateDatePicker(DatePicker dp){
         dp.setEditable(false);
         dp.setStyle("-fx-control-inner-background: #F1F1F1;");
     }
     
+    public static void activateDatePicker(DatePicker dp){
+        dp.setEditable(true);
+        dp.setStyle("-fx-control-inner-background: #FFFFFF;");
+    }
+    
     public static void inactivateTableView(TableView tv) {
         tv.setEditable(false);
         tv.setStyle("-fx-control-inner-background: #F1F1F1;");
+    }
+    
+    public static void activateTableView(TableView tv) {
+        tv.setEditable(false);
+        tv.setStyle("-fx-control-inner-background: #FFFFFF;");
     }
 }

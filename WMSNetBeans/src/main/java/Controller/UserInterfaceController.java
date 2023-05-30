@@ -35,7 +35,7 @@ public class UserInterfaceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         OptionLoader.loadStateComboBoxOptions(cbState);
         OptionLoader.loadCountryComboBoxOptions(cbCountry);
-        OptionLoader.loadAddressTypeComboBoxOptions(cbAdressType);
+        OptionLoader.loadAddressTypeComboBoxOptions(cbAddressType);
         OptionLoader.loadYearComboBoxOptions(cbYear);
         OptionLoader.loadItemCategoryComboBoxOptions(cbItemCategory);
         customerSet = DataSet.FULL_SET;
@@ -116,7 +116,7 @@ public class UserInterfaceController implements Initializable {
                 lastName = queryResults.getString("last_name");
                 mobile = queryResults.getString("mobile");
                 email = queryResults.getString("email");
-                customerAddressID = queryResults.getString("customer_adress_id");
+                customerAddressID = queryResults.getString("customer_address_id");
                 Customer newCustomer = makeNewCustomerObject();
                 customersList.add(newCustomer);
             }
@@ -231,6 +231,7 @@ public class UserInterfaceController implements Initializable {
     private int currentAddress;
     private int totalAddresses;
     private DataSet addressSet;
+    private SaveAction addressSaveAction;
     @FXML
     private TextField tfAddressID;
     private String addressID;
@@ -250,7 +251,7 @@ public class UserInterfaceController implements Initializable {
     private ComboBox cbCountry;
     private String country;
     @FXML
-    private ComboBox cbAdressType;
+    private ComboBox cbAddressType;
     private String addressType;
     @FXML
     private ComboBox cbYear;
@@ -270,7 +271,7 @@ public class UserInterfaceController implements Initializable {
         FieldAction.inactivateComboBox(cbState);
         FieldAction.inactivateTextField(tfPostalCode);
         FieldAction.inactivateComboBox(cbCountry);
-        FieldAction.inactivateComboBox(cbAdressType);
+        FieldAction.inactivateComboBox(cbAddressType);
         FieldAction.inactivateComboBox(cbYear);
         FieldAction.inactivateTextField(tfAvailableCollections);
         FieldAction.inactivateTextField(tfCurrentAddress);
@@ -344,13 +345,50 @@ public class UserInterfaceController implements Initializable {
         tfPostalCode.setText(address.getPostalCode());
         cbCountry.setValue(address.getCountry());
         cbCountry.setStyle("-fx-opacity: 1.0");
-        cbAdressType.setValue(address.getAddressType());
-        cbAdressType.setStyle("-fx-opacity: 1.0");
+        cbAddressType.setValue(address.getAddressType());
+        cbAddressType.setStyle("-fx-opacity: 1.0");
     }
     
     private void refreshAddressPaginationNumbers() {
         tfCurrentAddress.setText(currentAddress + 1 + "");
         tfTotalAddresses.setText(totalAddresses + "");
+    }
+    
+    @FXML
+    public void btnNewAddressClick() {
+        addressSaveAction = SaveAction.NEW;
+        int nextAddressID = getNextAddressID();
+        tfAddressID.setText(nextAddressID + "");
+        tfStreetAddress.clear();
+        FieldAction.activateTextField(tfStreetAddress);
+        tfSuburb.clear();
+        FieldAction.activateTextField(tfSuburb);
+        cbState.getSelectionModel().clearSelection();
+        FieldAction.activateComboBox(cbState);
+        tfPostalCode.clear();
+        FieldAction.activateTextField(tfPostalCode);
+        cbCountry.getSelectionModel().clearSelection();
+        FieldAction.activateComboBox(cbCountry);
+        cbAddressType.getSelectionModel().clearSelection();
+        FieldAction.activateComboBox(cbAddressType);
+        cbYear.getSelectionModel().clearSelection();
+        FieldAction.activateComboBox(cbYear);
+        tfAvailableCollections.setText("2");
+        int newTotalAddresses = addressList.size() + 1;
+        tfCurrentAddress.setText(newTotalAddresses + "");
+        tfTotalAddresses.setText(newTotalAddresses + "");
+        
+    }
+    
+    private int getNextAddressID() {
+        int maxAddressID = 0;
+        for (Address address : addressList) {
+            int currentAddressID = Integer.parseInt(address.getAddressID());
+            if (currentAddressID > maxAddressID) {
+                maxAddressID = currentAddressID;
+            }
+        }
+        return maxAddressID + 1;
     }
     
     @FXML
