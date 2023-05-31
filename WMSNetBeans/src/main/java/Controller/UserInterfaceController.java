@@ -9,6 +9,8 @@ Student Name: Daniel Barros
 package Controller;
 
 import Model.Address;
+import Model.Collection;
+import Model.CollectionItem;
 import Model.Customer;
 import View.FieldAction;
 import View.OptionLoader;
@@ -17,6 +19,9 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -30,6 +35,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class UserInterfaceController implements Initializable {
+    
+    private final int MAX_ANNUAL_COLLECTIONS = 2;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,6 +50,8 @@ public class UserInterfaceController implements Initializable {
         inactivateAllFields();
         loadAllCustomersFromDB();
         loadAllAddressesFromDB();
+        loadAllCSRsFromDB();
+        loadAllItemsFromDB();
     }
     
     @FXML
@@ -190,9 +199,12 @@ public class UserInterfaceController implements Initializable {
         if (!DataValidation.isEmpty(customerAddressID)) {
             for (int i = 0; i < addressList.size(); i++) {
                 if (addressList.get(i).getAddressID().equals(customerAddressID)) {
+                    addressSet = DataSet.FULL_SET;
                     displayAddressRecord(i);
                     currentAddress = i;
                     tfCurrentAddress.setText(currentAddress + 1 + "");
+                    totalAddresses = addressList.size();
+                    tfTotalAddresses.setText(totalAddresses + "");
                 }
             }
         } else {
@@ -349,6 +361,29 @@ public class UserInterfaceController implements Initializable {
         cbCountry.setStyle("-fx-opacity: 1.0");
         cbAddressType.setValue(address.getAddressType());
         cbAddressType.setStyle("-fx-opacity: 1.0");
+        int currentYear = (int) Year.now().getValue();
+        cbYear.setValue(currentYear);
+        cbYear.setDisable(false);
+        int availableCollections = getAvailableCollections(currentYear, address.getAddressID());
+        tfAvailableCollections.setText(availableCollections + "");
+    }
+    
+    private int getAvailableCollections(int year, String addressID) {
+        int availableCollections = 0;
+        int numberOfCollections = 0;
+        LocalDate collectionDate = null;
+        int collectionYear = 0;
+        String collectionAddressID;
+        for (int i = 0; i < collectionsList.size(); i++) {
+            collectionDate = collectionsList.get(i).getCollectionDate();
+            collectionYear = collectionDate.getYear();
+            collectionAddressID = collectionsList.get(i).getCsrAddressID();
+            if (collectionYear == year && collectionAddressID.equals(addressID)) {
+                numberOfCollections++;
+            }
+        }
+        availableCollections = MAX_ANNUAL_COLLECTIONS - numberOfCollections;
+        return availableCollections;
     }
     
     private void refreshAddressPaginationNumbers() {
@@ -375,7 +410,7 @@ public class UserInterfaceController implements Initializable {
         FieldAction.activateComboBox(cbAddressType);
         cbYear.getSelectionModel().clearSelection();
         FieldAction.activateComboBox(cbYear);
-        tfAvailableCollections.setText("2");
+        tfAvailableCollections.setText(MAX_ANNUAL_COLLECTIONS + "");
         int newTotalAddresses = addressList.size() + 1;
         tfCurrentAddress.setText(newTotalAddresses + "");
         tfTotalAddresses.setText(newTotalAddresses + "");
@@ -420,14 +455,25 @@ public class UserInterfaceController implements Initializable {
 /*  ==================================================================
     COLLECTION SERVICE REQUEST - CSR
 =================================================================== */
+    private ArrayList<Collection> collectionsList= new ArrayList();
     @FXML
     private TextField tfCSRID;
+    private String csrID;
     @FXML
     private DatePicker dpBookingDate;
+    LocalDate bookingDate;
     @FXML
     private DatePicker dpCollectionDate;
+    LocalDate collectionDate;
+    @FXML
+    private TextField tfCSRCustomerID;
+    private String csrCustomerID;
+    @FXML
+    private TextField tfCSRAddressID;
+    private String csrAddressID;
     @FXML
     private Label lblCancelled;
+    private boolean isCancelled;
     @FXML
     private ComboBox cbItemCategory;
     @FXML
@@ -464,6 +510,96 @@ public class UserInterfaceController implements Initializable {
         OptionLoader.loadItemTypeComboBoxOptions(cbItemCategory, 
             cbItemType);
     }
-
     
+    private void loadAllCSRsFromDB() {
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * "
+                    + "FROM collections "
+                    + "ORDER BY collection_id;"
+            );
+            ResultSet queryResults = statement.executeQuery();
+            while (queryResults.next()) {
+                csrID = queryResults.getString("collection_id");
+                bookingDate = LocalDate.parse(queryResults.getString("booking_date"),
+                        DateTimeFormatter.ISO_LOCAL_DATE);
+                collectionDate = LocalDate.parse(queryResults.getString("collection_date"),
+                        DateTimeFormatter.ISO_LOCAL_DATE);
+                csrCustomerID = queryResults.getString("csr_customer_id");
+                csrAddressID = queryResults.getString("csr_address_id");
+                isCancelled = Boolean.parseBoolean(queryResults.getString("cancelled"));
+                Collection newCollection = makeNewCollectionObject();
+                collectionsList.add(newCollection);
+            }
+            statement.close();
+            queryResults.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database Error", "ERROR: Unable to load "
+                    + "collections from the database.");
+        }
+    }
+        
+    private Collection makeNewCollectionObject() {
+        return new Collection(
+                csrID,
+                bookingDate,
+                collectionDate,
+                csrCustomerID,
+                csrAddressID,
+                isCancelled
+        );
+    }
+    
+    
+    
+    
+/*  ==================================================================
+    COLLECTION ITEMS
+    =================================================================== */    
+    private ArrayList<CollectionItem> itemsList= new ArrayList();
+    private String itemID;
+    private String itemCollectionID;
+    private String itemCategory;
+    private String itemType;
+    private String itemDescription;
+    private String itemQuantity;
+    
+    private void loadAllItemsFromDB(){
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * "
+                    + "FROM items "
+                    + "ORDER BY item_id;"
+            );
+            ResultSet queryResults = statement.executeQuery();
+            while (queryResults.next()) {
+                itemID = queryResults.getString("item_id");
+                itemCollectionID = queryResults.getString("item_collection_id");
+                itemCategory = queryResults.getString("category");
+                itemType = queryResults.getString("type");
+                itemDescription = queryResults.getString("description");
+                itemQuantity = queryResults.getString("quantity");
+                CollectionItem newCollectionItem = makeNewCollectionItemObject();
+                itemsList.add(newCollectionItem);
+            }
+            statement.close();
+            queryResults.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database Error", "ERROR: Unable to load "
+                    + "collection items from the database.");
+        }
+    }
+    
+    private CollectionItem makeNewCollectionItemObject() {
+        return new CollectionItem(
+                itemID,
+                itemCollectionID,
+                itemCategory,
+                itemType,
+                itemDescription,
+                itemQuantity
+        );
+    }
 }
