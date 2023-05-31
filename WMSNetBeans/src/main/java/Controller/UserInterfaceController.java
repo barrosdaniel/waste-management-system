@@ -215,26 +215,40 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnPreviousCustomerClick() {
-        inactivateAllCustomerFields();
-        if (currentCustomer == 0) {
-            currentCustomer = totalCustomers - 1;
+        if (!DataValidation.isEmpty(tfCustomerID.getText())) {
+            inactivateAllCustomerFields();
+            if (currentCustomer == 0) {
+                currentCustomer = totalCustomers - 1;
+            } else {
+                currentCustomer--;
+            }
+            displayCustomerRecord(currentCustomer);
+            refreshCustomerPaginationNumbers();
         } else {
-            currentCustomer--;
+            UserAlert.displayWarningAlert("Previous Record Error", 
+                    "You have not selected a customer yet. To be able to "
+                            + "view the previous customer, you must select a "
+                            + "customer first.");
         }
-        displayCustomerRecord(currentCustomer);
-        refreshCustomerPaginationNumbers();
     }
     
     @FXML
     public void btnNextCustomerClick() {
-        inactivateAllCustomerFields();
-        if (currentCustomer + 1 == totalCustomers) {
-            currentCustomer = 0;
+        if (!DataValidation.isEmpty(tfCustomerID.getText())) {
+            inactivateAllCustomerFields();
+            if (currentCustomer + 1 == totalCustomers) {
+                currentCustomer = 0;
+            } else {
+                currentCustomer++;
+            }
+            displayCustomerRecord(currentCustomer);
+            refreshCustomerPaginationNumbers();
         } else {
-            currentCustomer++;
+            UserAlert.displayWarningAlert("Next Record Error", 
+                    "You have not selected a customer yet. To be able to "
+                            + "view the next customer, you must select a "
+                            + "customer first.");
         }
-        displayCustomerRecord(currentCustomer);
-        refreshCustomerPaginationNumbers();
     }
     
 /*  ==================================================================
@@ -430,26 +444,121 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnPreviousAddressClick() {
-        inactivateAllAddressFields();
-        if (currentAddress == 0) {
-            currentAddress = totalAddresses - 1;
+        if (!DataValidation.isEmpty(tfAddressID.getText())) {
+            inactivateAllAddressFields();
+            if (currentAddress == 0) {
+                currentAddress = totalAddresses - 1;
+            } else {
+                currentAddress--;
+            }
+            displayAddressRecord(currentAddress);
+            refreshAddressPaginationNumbers();
         } else {
-            currentAddress--;
+            UserAlert.displayWarningAlert("Previous Record Error", 
+                    "You have not selected an address yet. To be able to "
+                            + "view the previous address, you must select an "
+                            + "address first.");
         }
-        displayAddressRecord(currentAddress);
-        refreshAddressPaginationNumbers();
     }
     
     @FXML
     public void btnNextAddressClick() {
-        inactivateAllAddressFields();
-        if (currentAddress + 1 == totalAddresses) {
-            currentAddress = 0;
+        if (!DataValidation.isEmpty(tfAddressID.getText())) {
+            inactivateAllAddressFields();
+            if (currentAddress + 1 == totalAddresses) {
+                currentAddress = 0;
+            } else {
+                currentAddress++;
+            }
+            displayAddressRecord(currentAddress);
+            refreshAddressPaginationNumbers();
         } else {
-            currentAddress++;
+            UserAlert.displayWarningAlert("Next Record Error", 
+                    "You have not selected an address yet. To be able to "
+                            + "view the next address, you must select an "
+                            + "address first.");
         }
-        displayAddressRecord(currentAddress);
-        refreshAddressPaginationNumbers();
+    }
+    
+    @FXML
+    public void btnSaveAddressClick() {
+        if (addressSaveAction.equals(SaveAction.NEW)) {
+            addNewAddress();
+        } else {
+//            editAddress();
+        }
+    }
+    
+    private void addNewAddress() {
+        Address newAddress = makeNewAddressObjectfromUI();
+        boolean addressAddedToDB = addAddressToDB(newAddress);
+        if (addressAddedToDB) {
+            inactivateAllAddressFields();
+            addressList.clear();
+            loadAllAddressesFromDB();
+            int indexOfNewAddress = -1;
+            for (int i = 0; i < addressList.size(); i++) {
+                if (addressList.get(i).getAddressID().equals(
+                        newAddress.getAddressID())) {
+                    indexOfNewAddress = i;
+                    break;
+                }
+            }
+            currentAddress = indexOfNewAddress;
+            displayAddressRecord(currentAddress);
+            totalAddresses = addressList.size();
+            refreshAddressPaginationNumbers();
+            addressSaveAction = null;
+            UserAlert.displayInformationAlert("Save successful", 
+                    "The address has been successfully saved to the "
+                            + "database.");
+        }
+    }
+    
+    private Address makeNewAddressObjectfromUI() {
+        addressID = tfAddressID.getText();
+        streetAddress = tfStreetAddress.getText();
+        suburb = tfSuburb.getText();
+        state = cbState.getValue().toString();
+        postalCode = tfPostalCode.getText();
+        country = cbCountry.getValue().toString();
+        addressType = cbAddressType.getValue().toString();
+        return makeNewAddressObject();
+    }
+    
+    private boolean addAddressToDB(Address newAddress) {
+        boolean addedToDatabase = false;
+        addressID = newAddress.getAddressID();
+        streetAddress = newAddress.getStreetAddress();
+        suburb = newAddress.getSuburb();
+        state = newAddress.getState();
+        postalCode = newAddress.getPostalCode();
+        country = newAddress.getCountry();
+        addressType = newAddress.getAddressType();
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    String.format("INSERT INTO addresses "
+                            + "(address_id, street_address, suburb, state, postal_code, "
+                            + "country, address_type) "
+                            + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+                            addressID, streetAddress, suburb, state,
+                            postalCode, country, addressType));
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                addedToDatabase = true;
+            } else {
+                UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                        + "been unable to save the address to the database. "
+                        + "check the data entered and try again.");
+            }
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the address "
+                            + "has not been saved to the database.");
+        }
+        return addedToDatabase;
     }
     
 /*  ==================================================================
