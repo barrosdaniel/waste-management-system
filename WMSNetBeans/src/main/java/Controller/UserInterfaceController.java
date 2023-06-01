@@ -74,6 +74,7 @@ public class UserInterfaceController implements Initializable {
     private int currentCustomer;
     private int totalCustomers;
     private DataSet customerSet;
+    private SaveAction customerSaveAction;
     @FXML
     private TextField tfCustomerID;
     private String customerID;
@@ -191,6 +192,37 @@ public class UserInterfaceController implements Initializable {
     private void refreshCustomerPaginationNumbers() {
         tfCurrentCustomer.setText(currentCustomer + 1 + "");
         tfTotalCustomers.setText(totalCustomers + "");
+    }
+    
+    @FXML
+    public void btnNewCustomerClick() {
+        customerSaveAction = SaveAction.NEW;
+        int nextCustomerID = getNextCustomerID();
+        tfCustomerID.setText(nextCustomerID + "");
+        tfFirstName.clear();
+        FieldAction.activateTextField(tfFirstName);  
+        tfLastName.clear();
+        FieldAction.activateTextField(tfLastName);
+        tfMobile.clear();
+        FieldAction.activateTextField(tfMobile);
+        tfEmail.clear();
+        FieldAction.activateTextField(tfEmail);
+        tfCustomerAddressID.clear();
+        taAddress.clear();
+        int newTotalCustomers = customersList.size() + 1;
+        tfCurrentCustomer.setText(newTotalCustomers + "");
+        tfTotalCustomers.setText(newTotalCustomers + "");
+    }
+    
+    private int getNextCustomerID() {
+        int maxCustomerID = 0;
+        for (Customer customer : customersList) {
+            int currentCustomerID = Integer.parseInt(customer.getCustomerID());
+            if (currentCustomerID > maxCustomerID) {
+                maxCustomerID = currentCustomerID;
+            }
+        }
+        return maxCustomerID + 1;
     }
     
     @FXML
@@ -428,7 +460,6 @@ public class UserInterfaceController implements Initializable {
         int newTotalAddresses = addressList.size() + 1;
         tfCurrentAddress.setText(newTotalAddresses + "");
         tfTotalAddresses.setText(newTotalAddresses + "");
-        
     }
     
     private int getNextAddressID() {
@@ -440,6 +471,19 @@ public class UserInterfaceController implements Initializable {
             }
         }
         return maxAddressID + 1;
+    }
+    
+    @FXML
+    private void btnFillAddressClick() {
+        if (customerSaveAction == SaveAction.NEW) {
+            tfCustomerAddressID.setText(tfAddressID.getText());
+        } else {
+            UserAlert.displayWarningAlert("Incorrect Fill Address Use",
+                    "To fill in a customer address, you must be adding a "
+                            + "new customer.");
+        }
+        String addressString = getAddressString(tfCustomerAddressID.getText());
+        taAddress.setText(addressString);
     }
     
     @FXML
@@ -485,7 +529,8 @@ public class UserInterfaceController implements Initializable {
         if (addressSaveAction.equals(SaveAction.NEW)) {
             addNewAddress();
         } else {
-//            editAddress();
+            // May be considered for future implementation.
+            // editAddress();
         }
     }
     
