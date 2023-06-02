@@ -115,7 +115,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnNewCustomerClick" prefWidth="160.0" text="+   New" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -123,7 +123,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnEditCustomerClick" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -247,7 +247,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <Button mnemonicParsing="false" onAction="#btnSaveCustomerClick" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="9">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -290,15 +290,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="15" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#btnViewAddressClick" prefWidth="160.0" text="⬅   Fill Address   🏠" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <Button mnemonicParsing="false" onAction="#btnFillAddressClick" prefWidth="160.0" text="⬅   Fill Address   🏠" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -74,6 +74,7 @@ public class UserInterfaceController implements Initializable {
     private int currentCustomer;
     private int totalCustomers;
     private DataSet customerSet;
+    private SaveAction customerSaveAction;
     @FXML
     private TextField tfCustomerID;
     private String customerID;
@@ -194,6 +195,53 @@ public class UserInterfaceController implements Initializable {
     }
     
     @FXML
+    public void btnNewCustomerClick() {
+        customerSaveAction = SaveAction.NEW;
+        int nextCustomerID = getNextCustomerID();
+        tfCustomerID.setText(nextCustomerID + "");
+        tfFirstName.clear();
+        FieldAction.activateTextField(tfFirstName);  
+        tfLastName.clear();
+        FieldAction.activateTextField(tfLastName);
+        tfMobile.clear();
+        FieldAction.activateTextField(tfMobile);
+        tfEmail.clear();
+        FieldAction.activateTextField(tfEmail);
+        tfCustomerAddressID.clear();
+        taAddress.clear();
+        int newTotalCustomers = customersList.size() + 1;
+        tfCurrentCustomer.setText(newTotalCustomers + "");
+        tfTotalCustomers.setText(newTotalCustomers + "");
+    }
+    
+    private int getNextCustomerID() {
+        int maxCustomerID = 0;
+        for (Customer customer : customersList) {
+            int currentCustomerID = Integer.parseInt(customer.getCustomerID());
+            if (currentCustomerID > maxCustomerID) {
+                maxCustomerID = currentCustomerID;
+            }
+        }
+        return maxCustomerID + 1;
+    }
+    
+    @FXML
+    private void btnEditCustomerClick() {
+        if (customerSet.equals(DataSet.FULL_SET)) {
+            customerSaveAction = SaveAction.EDIT;
+            FieldAction.activateTextField(tfMobile);
+            FieldAction.activateTextField(tfEmail);
+            FieldAction.inactivateTextField(tfFirstName);
+            FieldAction.inactivateTextField(tfLastName);
+        } else {
+            UserAlert.displayWarningAlert("Cannot edit in Search", 
+                    "Customer edit is not allowed whilst in Search mode. " +
+                    "Please click the 'View All' button to return to View "
+                            + "mode, then try again.");
+        }
+    }
+    
+    @FXML
     public void btnViewAddressClick() {
         customerAddressID = tfCustomerAddressID.getText();
         if (!DataValidation.isEmpty(customerAddressID)) {
@@ -250,6 +298,87 @@ public class UserInterfaceController implements Initializable {
                             + "customer first.");
         }
     }
+    
+    @FXML
+    public void btnSaveCustomerClick() {
+        if (customerSaveAction.equals(SaveAction.NEW)) {
+            addNewCustomer();
+        } else {
+//            editAddress();
+        }
+    }
+    
+    private void addNewCustomer() {
+        Customer newCustomer = makeNewCustomerObjectfromUI();
+        boolean customerAddedToDB = addCustomerToDB(newCustomer);
+        if (customerAddedToDB) {
+            inactivateAllCustomerFields();
+            customersList.clear();
+            loadAllCustomersFromDB();
+            int indexOfNewCustomer = -1;
+            for (int i = 0; i < customersList.size(); i++) {
+                if (customersList.get(i).getCustomerID().equals(
+                        newCustomer.getCustomerID())) {
+                    indexOfNewCustomer = i;
+                    break;
+                }
+            }
+            currentCustomer = indexOfNewCustomer;
+            displayCustomerRecord(currentCustomer);
+            totalCustomers = customersList.size();
+            refreshCustomerPaginationNumbers();
+            customerSaveAction = null;
+            UserAlert.displayInformationAlert("Save successful", 
+                    "The customer has been successfully saved to the "
+                            + "database.");
+        }
+    }
+    
+    private Customer makeNewCustomerObjectfromUI() {
+        customerID = tfCustomerID.getText();
+        firstName = tfFirstName.getText();
+        lastName = tfLastName.getText();
+        mobile = tfMobile.getText();
+        email = tfEmail.getText();
+        customerAddressID = tfCustomerAddressID.getText();
+        return makeNewCustomerObject();
+    }
+    
+    private boolean addCustomerToDB(Customer newCustomer) {
+        boolean addedToDatabase = false;
+        customerID = newCustomer.getCustomerID();
+        firstName = newCustomer.getFirstName();
+        lastName = newCustomer.getLastName();
+        mobile = newCustomer.getMobile();
+        email = newCustomer.getEmail();
+        customerAddressID = newCustomer.getCustomerAddressID();
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    String.format("INSERT INTO customers "
+                            + "(customer_id, first_name, last_name, mobile, email, "
+                            + "customer_address_id) "
+                            + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
+                
+                            customerID, firstName, lastName, mobile,
+                            email, customerAddressID));
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                addedToDatabase = true;
+            } else {
+                UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                        + "been unable to save the customer to the database. "
+                        + "Check the data entered and try again.");
+            }
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the customer "
+                            + "has not been saved to the database.");
+        }
+        return addedToDatabase;
+    }
+
     
 /*  ==================================================================
     ADDRESS
@@ -423,12 +552,12 @@ public class UserInterfaceController implements Initializable {
         cbAddressType.getSelectionModel().clearSelection();
         FieldAction.activateComboBox(cbAddressType);
         cbYear.getSelectionModel().clearSelection();
+        cbYear.setValue(LocalDate.now().getYear());
         FieldAction.activateComboBox(cbYear);
         tfAvailableCollections.setText(MAX_ANNUAL_COLLECTIONS + "");
         int newTotalAddresses = addressList.size() + 1;
         tfCurrentAddress.setText(newTotalAddresses + "");
         tfTotalAddresses.setText(newTotalAddresses + "");
-        
     }
     
     private int getNextAddressID() {
@@ -440,6 +569,19 @@ public class UserInterfaceController implements Initializable {
             }
         }
         return maxAddressID + 1;
+    }
+    
+    @FXML
+    private void btnFillAddressClick() {
+        if (customerSaveAction == SaveAction.NEW) {
+            tfCustomerAddressID.setText(tfAddressID.getText());
+        } else {
+            UserAlert.displayWarningAlert("Incorrect Fill Address Use",
+                    "To fill in a customer address, you must be adding a "
+                            + "new customer.");
+        }
+        String addressString = getAddressString(tfCustomerAddressID.getText());
+        taAddress.setText(addressString);
     }
     
     @FXML
@@ -485,7 +627,8 @@ public class UserInterfaceController implements Initializable {
         if (addressSaveAction.equals(SaveAction.NEW)) {
             addNewAddress();
         } else {
-//            editAddress();
+            // May be considered for future implementation.
+            // editAddress();
         }
     }
     
