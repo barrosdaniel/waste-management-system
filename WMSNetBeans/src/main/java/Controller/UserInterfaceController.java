@@ -301,10 +301,21 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnSaveCustomerClick() {
-        if (customerSaveAction.equals(SaveAction.NEW)) {
-            addNewCustomer();
+        // Using tfMobile to check if a user is either creating a new customer
+        // record or editing a customer record. The save button should not action
+        // any logic if the user is neither creating a new customer
+        // record or editing a customer record.
+        if (tfMobile.isEditable()) {
+            if (customerSaveAction.equals(SaveAction.NEW)) {
+                addNewCustomer();
+            } else {
+                editCustomer();
+            }
         } else {
-//            editAddress();
+            UserAlert.displayWarningAlert("Incorrect Save Button Use", 
+                "To save a customer record, you must be either creating "
+                + "a new customer record or editing an existing customer "
+                + "record.");
         }
     }
     
@@ -378,7 +389,63 @@ public class UserInterfaceController implements Initializable {
         }
         return addedToDatabase;
     }
-
+    
+    private void editCustomer() {
+        int indexOfEditedCustomer = Integer.parseInt(tfCurrentCustomer.getText()) - 1;
+        Customer originalCustomer = customersList.get(indexOfEditedCustomer);
+        Customer editedCustomer = makeNewCustomerObjectfromUI();
+        if (editedCustomer.equals(originalCustomer)) {
+            UserAlert.displayWarningAlert("No changes to Save", "The "
+                    + "customer record you are trying to save has no changes.");
+        } else {
+            if (alterCustomerInDatabase(editedCustomer)) {
+                customersList.set(indexOfEditedCustomer, editedCustomer);
+                inactivateAllCustomerFields();
+                currentCustomer = indexOfEditedCustomer;
+                displayCustomerRecord(currentCustomer);
+                totalCustomers = customersList.size();
+                refreshCustomerPaginationNumbers();
+                customerSaveAction = null;
+                UserAlert.displayInformationAlert("Customer saved", 
+                        "Customer record successfully changed in the database.");
+            }
+        }
+    }
+    
+    private boolean alterCustomerInDatabase(Customer editedCustomer) {
+        boolean editedInDatabase = false;
+        customerID = editedCustomer.getCustomerID();
+        firstName = editedCustomer.getFirstName();
+        lastName = editedCustomer.getLastName();
+        mobile = editedCustomer.getMobile();
+        email = editedCustomer.getEmail();
+        customerAddressID = editedCustomer.getCustomerAddressID();
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    String.format(
+                    "UPDATE customers "
+                    + "SET first_name = '%s', last_name = '%s', mobile = '%s', "
+                    + "email = '%s', customer_address_id = '%s' "
+                    + "WHERE customer_id = '%s';",
+                    firstName, lastName, mobile, email,
+                    customerAddressID, customerID));
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                editedInDatabase = true;
+            } else {
+                UserAlert.displayErrorAlert("Customer not edited in database.",
+                    "The customer record cannot be edited in the database.");
+            }
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Customer not edited in database.",
+                "Unable to connect to the database. Customer record not "
+                + "edited in database.");
+        }
+        return editedInDatabase;
+    }
+    
     
 /*  ==================================================================
     ADDRESS
