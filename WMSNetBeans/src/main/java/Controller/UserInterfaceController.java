@@ -598,7 +598,7 @@ public class UserInterfaceController implements Initializable {
         );
     }
     
-        @FXML
+    @FXML
     public void btnAddressSearchClick() {
         String searchString = tfAddressSearch.getText();
         if (!searchString.isEmpty()) {
@@ -749,8 +749,9 @@ public class UserInterfaceController implements Initializable {
     
     private int getNextAddressID() {
         int maxAddressID = 0;
+        int currentAddressID = -1;
         for (Address address : addressList) {
-            int currentAddressID = Integer.parseInt(address.getAddressID());
+            currentAddressID = Integer.parseInt(address.getAddressID());
             if (currentAddressID > maxAddressID) {
                 maxAddressID = currentAddressID;
             }
@@ -895,6 +896,12 @@ public class UserInterfaceController implements Initializable {
     COLLECTION SERVICE REQUEST - CSR
 =================================================================== */
     private ArrayList<Collection> collectionsList= new ArrayList();
+    private ArrayList<Collection> tempCollectionsList= new ArrayList();
+    private int currentCollection;
+    private int totalCollections;
+    private DataSet collectionSet;
+    private SaveAction collectionSaveAction;
+    private Address iteratingCollection;
     @FXML
     private TextField tfCSRID;
     private String csrID;
@@ -934,6 +941,8 @@ public class UserInterfaceController implements Initializable {
         FieldAction.inactivateTextField(tfCSRID);
         FieldAction.inactivateDatePicker(dpBookingDate);
         FieldAction.inactivateDatePicker(dpCollectionDate);
+        FieldAction.inactivateTextField(tfCSRCustomerID);
+        FieldAction.inactivateTextField(tfCSRAddressID);
         FieldAction.inactivateComboBox(cbItemCategory);
         FieldAction.inactivateComboBox(cbItemType);
         FieldAction.inactivateTextField(tfItemDescription);
@@ -988,6 +997,54 @@ public class UserInterfaceController implements Initializable {
                 csrAddressID,
                 isCancelled
         );
+    }
+    
+    @FXML
+    public void btnNewCollectionClick() {
+        if (tfCustomerID.getText().isEmpty()) {
+            UserAlert.displayWarningAlert("No Customer Selected", 
+                "To create a new Collection Service Request, you need to "
+                + "select a Customer first.");
+            return;
+        }
+        collectionSaveAction = SaveAction.NEW;
+        int nextCollectionID = getNextCollectionID();
+        tfCSRID.setText(nextCollectionID + "");
+        dpBookingDate.setValue(null);
+        FieldAction.activateDatePicker(dpBookingDate);
+        dpCollectionDate.setValue(null);
+        FieldAction.activateDatePicker(dpCollectionDate);
+        tfCSRCustomerID.clear();
+        tfCSRCustomerID.setText(tfCustomerID.getText());
+        tfCSRAddressID.clear();
+        tfCSRAddressID.setText(tfCustomerAddressID.getText());
+        tvCSRSummary.getItems().clear();
+        FieldAction.activateTableView(tvCSRSummary);
+        cbItemCategory.getSelectionModel().clearSelection();
+        FieldAction.activateComboBox(cbItemCategory);
+        cbItemType.getSelectionModel().clearSelection();
+        FieldAction.activateComboBox(cbItemType);
+        tfItemDescription.clear();
+        FieldAction.activateTextField(tfItemDescription);
+        tfQuantity.clear();
+        FieldAction.activateTextField(tfQuantity);
+        tfItemNumber.clear();
+        FieldAction.activateTextField(tfItemNumber);
+        int newTotalCollections = collectionsList.size() + 1;
+        tfCurrentCSR.setText(newTotalCollections + "");
+        tfTotalCSRs.setText(newTotalCollections + "");
+    }
+    
+    private int getNextCollectionID() {
+        int maxCollectionID = 0;
+        int currentCollectionID = -1;
+        for (Collection collection : collectionsList) {
+            currentCollectionID = Integer.parseInt(collection.getCsrID());
+            if (currentCollectionID > maxCollectionID) {
+                maxCollectionID = currentCollectionID;
+            }
+        }
+        return maxCollectionID + 1;
     }
     
     
