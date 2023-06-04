@@ -1218,10 +1218,16 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnSaveCSRClick() {
-        if (collectionSaveAction.equals(SaveAction.NEW)) {
-            addNewCollection();
+        if (!(collectionSaveAction == null)) {
+            if (collectionSaveAction.equals(SaveAction.NEW)) {
+                addNewCollection();
+            } else {
+                // editCollection();
+            }
         } else {
-            // editCollection();
+            UserAlert.displayWarningAlert("Incorrect Save Action", 
+                "To save a CSR, you need to be either adding a new "
+                + "CSR or editing an existing one.");
         }
     }
     
