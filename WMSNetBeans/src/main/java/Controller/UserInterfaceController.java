@@ -1004,6 +1004,47 @@ public class UserInterfaceController implements Initializable {
     }
     
     @FXML
+    public void btnViewAllCollectionsClick() {
+        collectionSet = DataSet.FULL_SET;
+        inactivateAllCSRFields();
+        if (collectionsList.size() > 0) {
+            currentCollection = 0;
+            totalCollections = collectionsList.size();
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        }
+    }
+    
+    private void displayCollectionRecord(int index) {
+        Collection collection;
+        if (collectionSet.equals(DataSet.FULL_SET)) {
+            collection = collectionsList.get(index);
+        } else {
+            collection = tempCollectionsList.get(index);
+        }
+        tfCSRID.setText(collection.getCsrID());
+        dpBookingDate.setValue(collection.getBookingDate());
+        dpCollectionDate.setValue(collection.getCollectionDate());
+        tfCSRCustomerID.setText(collection.getCsrCustomerID());
+        tfCSRAddressID.setText(collection.getCsrAddressID());
+        if (collection.isCancelled()) {
+            lblCancelled.setVisible(true);
+        }
+        taCSRItems.clear();
+        FieldAction.printTableHeaders(taCSRItems);
+        for (CollectionItem item : itemsList) {
+            if(item.getItemCollectionID().equals(tfCSRID.getText())) {
+                taCSRItems.appendText(item.getString());
+            }
+        }
+    }
+    
+    private void refreshCollectionsPaginationNumbers() {
+        tfCurrentCSR.setText(currentAddress + 1 + "");
+        tfTotalCSRs.setText(totalAddresses + "");
+    }
+    
+    @FXML
     public void btnNewCollectionClick() {
         if (tfCustomerID.getText().isEmpty()) {
             UserAlert.displayWarningAlert("No Customer Selected", 
@@ -1130,6 +1171,90 @@ public class UserInterfaceController implements Initializable {
                 "Please enter the ID of an item in the CSR Items table to "
                 + "remove and try again.");
         }
+    }
+    
+    @FXML
+    public void btnSaveCSRClick() {
+        if (collectionSaveAction.equals(SaveAction.NEW)) {
+            addNewCollection();
+        } else {
+            // May be considered for future implementation.
+            // editAddress();
+        }
+    }
+    
+    private void addNewCollection() {
+        Collection newCollection = makeNewCollectionObjectFromUI();
+        boolean collectionAddedToDB = addCollectionToDB(newCollection);
+//        if (collectionAddedToDB) {
+//            inactivateAllCollectionFields();
+//        
+//        
+//            addressList.clear();
+//            loadAllAddressesFromDB();
+//            int indexOfNewAddress = -1;
+//            for (int i = 0; i < addressList.size(); i++) {
+//                if (addressList.get(i).getAddressID().equals(
+//                        newAddress.getAddressID())) {
+//                    indexOfNewAddress = i;
+//                    break;
+//                }
+//            }
+//            currentAddress = indexOfNewAddress;
+//            displayAddressRecord(currentAddress);
+//            totalAddresses = addressList.size();
+//            refreshAddressPaginationNumbers();
+//            addressSaveAction = null;
+//            UserAlert.displayInformationAlert("Save successful", 
+//                    "The address has been successfully saved to the "
+//                            + "database.");
+//        }
+    }
+    
+    private Collection makeNewCollectionObjectFromUI() {
+        csrID = tfCSRID.getText();
+        bookingDate = dpBookingDate.getValue();
+        collectionDate = dpCollectionDate.getValue();
+        csrCustomerID = tfCSRCustomerID.getText();
+        csrAddressID = tfCSRAddressID.getText();
+        isCancelled = false;
+        return makeNewCollectionObject();
+    }
+    
+    private boolean addCollectionToDB(Collection newCollection) {
+        boolean collectionAddedToDatabase = false;
+        boolean collectionItemsAddedToDatabase = false;
+        csrID = newCollection.getCsrID();
+        bookingDate = newCollection.getBookingDate();
+        collectionDate = newCollection.getCollectionDate();
+        csrCustomerID = newCollection.getCsrCustomerID();
+        csrAddressID = newCollection.getCsrAddressID();
+        isCancelled = newCollection.isCancelled();
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    String.format("INSERT INTO collections "
+                            + "(collection_id, booking_date, collection_date, "
+                            + "csr_customer_id, csr_address_id, cancelled) "
+                            + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
+                            csrID, bookingDate, collectionDate, 
+                            csrCustomerID, csrAddressID, isCancelled));
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                collectionAddedToDatabase = true;
+            } else {
+                UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                        + "been unable to save the Collection Service Request "
+                        + "to the database. Check the data entered and try again.");
+            }
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database connection error", 
+                "There was a database connection error and the collection "
+                    + "has not been saved to the database.");
+        }
+//        collectionItemsAddedToDatabase = addCollectionItemsToDB();
+        return collectionAddedToDatabase;
     }
     
 /*  ==================================================================

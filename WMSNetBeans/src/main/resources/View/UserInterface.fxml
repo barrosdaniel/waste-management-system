@@ -466,7 +466,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                  <Button mnemonicParsing="false" onAction="#btnViewAllCollectionsClick" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -594,7 +594,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                  <Button mnemonicParsing="false" onAction="#btnSaveCSRClick" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <font>
                         <Font size="14.0" />
                      </font>
