@@ -66,4 +66,10 @@ public class CollectionItem {
     public void setItemQuantity(String itemQuantity) {
         this.itemQuantity = itemQuantity;
     }
+    
+    public String getString() {
+        return String.format("%-10s %-20s %-20s %-32s %-8s %n", 
+            this.itemID, this.itemCategory,this.itemType, 
+            this.itemDescription, this.itemQuantity);
+    }
 }

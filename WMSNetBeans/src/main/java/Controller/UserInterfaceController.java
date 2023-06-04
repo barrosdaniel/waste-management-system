@@ -30,7 +30,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -78,7 +77,6 @@ public class UserInterfaceController implements Initializable {
     private Customer iteratingCustomer;
     @FXML
     private TextField tfCustomerSearch;
-    private String customerSearchText;
     @FXML
     private TextField tfCustomerID;
     private String customerID;
@@ -156,22 +154,28 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnCustomerSearchClick() {
-        btnViewAllAddressesClick();
-        customerSet = DataSet.SEARCH_SET;
-        tempCustomersList.clear();
         String searchString = tfCustomerSearch.getText();
-        searchLastName(searchString);
-        searchMobile(searchString);
-        if (!tempCustomersList.isEmpty()) {
-            inactivateAllCustomerFields();
-            currentCustomer = 0;
-            totalCustomers = tempCustomersList.size();
-            displayCustomerRecord(currentCustomer);
-            refreshCustomerPaginationNumbers();
+        if (!searchString.isEmpty()) {
+            btnViewAllCustomersClick();
+            customerSet = DataSet.SEARCH_SET;
+            tempCustomersList.clear();
+            searchLastName(searchString);
+            searchMobile(searchString);
+            if (!tempCustomersList.isEmpty()) {
+                inactivateAllCustomerFields();
+                currentCustomer = 0;
+                totalCustomers = tempCustomersList.size();
+                displayCustomerRecord(currentCustomer);
+                refreshCustomerPaginationNumbers();
+            } else {
+                UserAlert.displayWarningAlert("No customer found", "No "
+                    + "customers found with the entered details. Please try again "
+                    + "or try another action.");
+            }
         } else {
-            UserAlert.displayWarningAlert("No customer found", "No "
-                + "customers found with the entered details. Please try again "
-                + "or try another action.");
+            UserAlert.displayWarningAlert("Empty search parameters", 
+                "Please enter search terms in the Customer search box and "
+                + "try again.");
         }
     }
     
@@ -504,6 +508,9 @@ public class UserInterfaceController implements Initializable {
     private int totalAddresses;
     private DataSet addressSet;
     private SaveAction addressSaveAction;
+    private Address iteratingAddress;
+    @FXML
+    private TextField tfAddressSearch;
     @FXML
     private TextField tfAddressID;
     private String addressID;
@@ -588,6 +595,70 @@ public class UserInterfaceController implements Initializable {
                 country,
                 addressType
         );
+    }
+    
+    @FXML
+    public void btnAddressSearchClick() {
+        String searchString = tfAddressSearch.getText();
+        if (!searchString.isEmpty()) {
+            btnViewAllAddressesClick();
+            addressSet = DataSet.SEARCH_SET;
+            tempAddressList.clear();
+            searchStreetAddress(searchString);
+            searchSuburb(searchString);
+            searchPostalCode(searchString);
+            if (!tempAddressList.isEmpty()) {
+                inactivateAllAddressFields();
+                currentAddress = 0;
+                totalAddresses = tempAddressList.size();
+                displayAddressRecord(currentAddress);
+                refreshAddressPaginationNumbers();
+            } else {
+                UserAlert.displayWarningAlert("No address found", "No "
+                    + "addresses found with the entered details. Please try again "
+                    + "or try another action.");
+            }
+        } else {
+            UserAlert.displayWarningAlert("Empty search parameters", 
+                "Please enter search terms in the Address search box and "
+                + "try again.");
+        }
+    }
+    
+    private void searchStreetAddress(String searchString) {
+        String iteratingStreetAddress;
+        for (int i = 0; i < addressList.size(); i++) {
+            iteratingAddress = addressList.get(i);
+            iteratingStreetAddress = iteratingAddress.getStreetAddress();
+            if (iteratingStreetAddress.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempAddressList.add(iteratingAddress);
+            }
+        }
+    }
+    
+    private void searchSuburb(String searchString) {
+        String iteratingSuburb;
+        for (int i = 0; i < addressList.size(); i++) {
+            iteratingAddress = addressList.get(i);
+            iteratingSuburb = iteratingAddress.getSuburb();
+            if (iteratingSuburb.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempAddressList.add(iteratingAddress);
+            }
+        }
+    }
+    
+    private void searchPostalCode(String searchString) {
+        String iteratingPostalCode;
+        for (int i = 0; i < addressList.size(); i++) {
+            iteratingAddress = addressList.get(i);
+            iteratingPostalCode = iteratingAddress.getPostalCode();
+            if (iteratingPostalCode.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempAddressList.add(iteratingAddress);
+            }
+        }
     }
     
     @FXML
@@ -677,8 +748,9 @@ public class UserInterfaceController implements Initializable {
     
     private int getNextAddressID() {
         int maxAddressID = 0;
+        int currentAddressID = -1;
         for (Address address : addressList) {
-            int currentAddressID = Integer.parseInt(address.getAddressID());
+            currentAddressID = Integer.parseInt(address.getAddressID());
             if (currentAddressID > maxAddressID) {
                 maxAddressID = currentAddressID;
             }
@@ -823,6 +895,13 @@ public class UserInterfaceController implements Initializable {
     COLLECTION SERVICE REQUEST - CSR
 =================================================================== */
     private ArrayList<Collection> collectionsList= new ArrayList();
+    private ArrayList<Collection> tempCollectionsList= new ArrayList();
+    private int currentCollection;
+    private int totalCollections;
+    private DataSet collectionSet;
+    private SaveAction collectionSaveAction;
+    private Address iteratingCollection;
+    private int CSRItemCounter;
     @FXML
     private TextField tfCSRID;
     private String csrID;
@@ -843,16 +922,20 @@ public class UserInterfaceController implements Initializable {
     private boolean isCancelled;
     @FXML
     private ComboBox cbItemCategory;
+    private String CSRItemCategory;
     @FXML
     private ComboBox cbItemType;
+    private String CSRItemType;
     @FXML
     private TextField tfItemDescription;
+    private String CSRItemDescription;
     @FXML
     private TextField tfQuantity;
+    private String CSRQuantity;
     @FXML
     private TextField tfItemNumber;
     @FXML
-    private TableView tvCSRSummary;
+    private TextArea taCSRItems;
     @FXML
     private TextField tfCurrentCSR;
     @FXML
@@ -862,12 +945,14 @@ public class UserInterfaceController implements Initializable {
         FieldAction.inactivateTextField(tfCSRID);
         FieldAction.inactivateDatePicker(dpBookingDate);
         FieldAction.inactivateDatePicker(dpCollectionDate);
+        FieldAction.inactivateTextField(tfCSRCustomerID);
+        FieldAction.inactivateTextField(tfCSRAddressID);
         FieldAction.inactivateComboBox(cbItemCategory);
         FieldAction.inactivateComboBox(cbItemType);
         FieldAction.inactivateTextField(tfItemDescription);
         FieldAction.inactivateTextField(tfQuantity);
         FieldAction.inactivateTextField(tfItemNumber);
-        FieldAction.inactivateTableView(tvCSRSummary);
+        FieldAction.inactivateTextArea(taCSRItems);
         FieldAction.inactivateTextField(tfCurrentCSR);
         FieldAction.inactivateTextField(tfTotalCSRs);
     }
@@ -879,6 +964,7 @@ public class UserInterfaceController implements Initializable {
     }
     
     private void loadAllCSRsFromDB() {
+        int cancelled = -1;
         try (Connection connection = DatabaseHandler.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * "
@@ -894,7 +980,8 @@ public class UserInterfaceController implements Initializable {
                         DateTimeFormatter.ISO_LOCAL_DATE);
                 csrCustomerID = queryResults.getString("csr_customer_id");
                 csrAddressID = queryResults.getString("csr_address_id");
-                isCancelled = Boolean.parseBoolean(queryResults.getString("cancelled"));
+                cancelled = Integer.parseInt(queryResults.getString("cancelled"));
+                isCancelled = (cancelled == 1) ? true : false;
                 Collection newCollection = makeNewCollectionObject();
                 collectionsList.add(newCollection);
             }
@@ -918,13 +1005,366 @@ public class UserInterfaceController implements Initializable {
         );
     }
     
+    @FXML
+    public void btnViewAllCollectionsClick() {
+        collectionSet = DataSet.FULL_SET;
+        inactivateAllCSRFields();
+        if (collectionsList.size() > 0) {
+            currentCollection = 0;
+            totalCollections = collectionsList.size();
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        }
+    }
     
+    private void displayCollectionRecord(int index) {
+        Collection collection;
+        if (collectionSet.equals(DataSet.FULL_SET)) {
+            collection = collectionsList.get(index);
+        } else {
+            collection = tempCollectionsList.get(index);
+        }
+        tfCSRID.setText(collection.getCsrID());
+        dpBookingDate.setValue(collection.getBookingDate());
+        dpCollectionDate.setValue(collection.getCollectionDate());
+        tfCSRCustomerID.setText(collection.getCsrCustomerID());
+        tfCSRAddressID.setText(collection.getCsrAddressID());
+        if (collection.isCancelled()) {
+            lblCancelled.setText("CANCELLED");
+        } else {
+            lblCancelled.setText("");
+        }
+        taCSRItems.clear();
+        FieldAction.printTableHeaders(taCSRItems);
+        for (CollectionItem item : itemsList) {
+            if(item.getItemCollectionID().equals(tfCSRID.getText())) {
+                taCSRItems.appendText(item.getString());
+            }
+        }
+    }
     
+    private void refreshCollectionsPaginationNumbers() {
+        tfCurrentCSR.setText(currentCollection + 1 + "");
+        tfTotalCSRs.setText(totalCollections + "");
+    }
+    
+    @FXML
+    public void btnNewCollectionClick() {
+        if (tfCustomerID.getText().isEmpty()) {
+            UserAlert.displayWarningAlert("No Customer Selected", 
+                "To create a new Collection Service Request, you need to "
+                + "select a Customer first.");
+            return;
+        }
+        collectionSaveAction = SaveAction.NEW;
+        int nextCollectionID = getNextCollectionID();
+        tfCSRID.setText(nextCollectionID + "");
+        dpBookingDate.setValue(null);
+        FieldAction.activateDatePicker(dpBookingDate);
+        dpCollectionDate.setValue(null);
+        FieldAction.activateDatePicker(dpCollectionDate);
+        tfCSRCustomerID.clear();
+        tfCSRCustomerID.setText(tfCustomerID.getText());
+        tfCSRAddressID.clear();
+        tfCSRAddressID.setText(tfCustomerAddressID.getText());
+        cbItemCategory.setValue("");
+        FieldAction.activateComboBox(cbItemCategory);
+        cbItemType.setValue("");
+        FieldAction.activateComboBox(cbItemType);
+        tfItemDescription.clear();
+        FieldAction.activateTextField(tfItemDescription);
+        tfQuantity.clear();
+        FieldAction.activateTextField(tfQuantity);
+        tfItemNumber.clear();
+        FieldAction.activateTextField(tfItemNumber);
+        int newTotalCollections = collectionsList.size() + 1;
+        tfCurrentCSR.setText(newTotalCollections + "");
+        tfTotalCSRs.setText(newTotalCollections + "");
+        taCSRItems.clear();
+        FieldAction.printTableHeaders(taCSRItems);
+        CSRItemsList.clear();
+        CSRItemCounter = 0;
+    }
+    
+    private int getNextCollectionID() {
+        int maxCollectionID = 0;
+        int currentCollectionID = -1;
+        for (Collection collection : collectionsList) {
+            currentCollectionID = Integer.parseInt(collection.getCsrID());
+            if (currentCollectionID > maxCollectionID) {
+                maxCollectionID = currentCollectionID;
+            }
+        }
+        return maxCollectionID + 1;
+    }
+    
+    @FXML
+    public void addItemToCSR() {
+        int nextCSRItemID = getNextCSRItemID();
+        csrID = tfCSRID.getText();
+        CSRItemCategory = cbItemCategory.getValue().toString();
+        CSRItemType = cbItemType.getValue().toString();
+        CSRItemDescription = tfItemDescription.getText();
+        CSRQuantity = tfQuantity.getText();
+        if (CSRItemCategory.isEmpty() || CSRItemType.isEmpty() ||
+                CSRItemDescription.isEmpty() || CSRQuantity.isEmpty()) {
+            UserAlert.displayWarningAlert("Enter All Item Fields", 
+                    "To add an item to the CSR, please enter the item's "
+                    + "category, type, description, and quantity.");
+        } else {
+            CollectionItem newItem = new CollectionItem(nextCSRItemID + "",
+                csrID, CSRItemCategory, CSRItemType,
+                CSRItemDescription, CSRQuantity);
+            CSRItemsList.add(newItem);
+            taCSRItems.setText("");
+            FieldAction.printTableHeaders(taCSRItems);
+            printCSRItems();
+            clearItemControls();
+        }
+    }
+    
+    private void clearItemControls() {
+        cbItemCategory.setValue("");
+        cbItemType.setValue("");
+        tfItemDescription.setText("");
+        tfQuantity.setText("");
+        tfItemNumber.setText("");
+    }
+    
+    private int getNextCSRItemID() {
+        int maxCSRItemID = 0;
+        int currentCSRItemID = -1;
+        for (CollectionItem collectionItem : itemsList) {
+            currentCSRItemID = Integer.parseInt(collectionItem.getItemID());
+            if (currentCSRItemID > maxCSRItemID) {
+                maxCSRItemID = currentCSRItemID;
+            }
+        }
+        for (CollectionItem collectionItem : CSRItemsList) {
+            currentCSRItemID = Integer.parseInt(collectionItem.getItemID());
+            if (currentCSRItemID > maxCSRItemID) {
+                maxCSRItemID = currentCSRItemID;
+            }
+        }
+        return maxCSRItemID + 1;
+    }
+    
+    private void printCSRItems() {
+        for (CollectionItem item : CSRItemsList) {
+            taCSRItems.appendText(item.getString());
+        }
+    }
+    
+    @FXML
+    public void removeItemFromCSR() {
+        String itemToRemoveID = tfItemNumber.getText();
+        if (!itemToRemoveID.isEmpty()) {
+            int indexToRemove = -1;
+            for (int i = 0; i < CSRItemsList.size(); i++) {
+                if (CSRItemsList.get(i).getItemID().equals(itemToRemoveID)) {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+            CSRItemsList.remove(indexToRemove);
+            taCSRItems.setText("");
+            FieldAction.printTableHeaders(taCSRItems);
+            printCSRItems();
+            clearItemControls();
+        } else {
+            UserAlert.displayWarningAlert("No CSR Item Selected",
+                "Please enter the ID of an item in the CSR Items table to "
+                + "remove and try again.");
+        }
+    }
+    
+    @FXML
+    public void btnPreviousCollectionClick() {
+        if (!DataValidation.isEmpty(tfCSRID.getText())) {
+            inactivateAllCSRFields();
+            if (currentCollection == 0) {
+                currentCollection = totalCollections - 1;
+            } else {
+                currentCollection--;
+            }
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("Previous Record Error", 
+                "You have not selected a Collection Service Request yet. "
+                + "To be able to view the previous collectoin, you must select a "
+                + "collection first.");
+        }
+    }
+    
+    @FXML
+    public void btnNextCollectionClick() {
+        if (!DataValidation.isEmpty(tfCSRID.getText())) {
+            inactivateAllCSRFields();
+            if (currentCollection + 1 == totalCollections) {
+                currentCollection = 0;
+            } else {
+                currentCollection++;
+            }
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("Next Record Error", 
+                "You have not selected a Collection Service Request yet. "
+                + "To be able to view the next collection, you must select a "
+                + "collection first.");
+        }
+    }
+    
+    @FXML
+    public void btnSaveCSRClick() {
+        if (!(collectionSaveAction == null)) {
+            if (collectionSaveAction.equals(SaveAction.NEW)) {
+                addNewCollection();
+            } else {
+                // editCollection();
+            }
+        } else {
+            UserAlert.displayWarningAlert("Incorrect Save Action", 
+                "To save a CSR, you need to be either adding a new "
+                + "CSR or editing an existing one.");
+        }
+    }
+    
+    private void addNewCollection() {
+        Collection newCollection = makeNewCollectionObjectFromUI();
+        boolean collectionAddedToDB = addCollectionToDB(newCollection);
+        if (collectionAddedToDB) {
+            inactivateAllCSRFields();
+            collectionsList.clear();
+            loadAllCSRsFromDB();
+            int indexOfNewCollection = -1;
+            for (int i = 0; i < collectionsList.size(); i++) {
+                if (collectionsList.get(i).getCsrID().equals(
+                        newCollection.getCsrID())) {
+                    indexOfNewCollection = i;
+                    break;
+                }
+            }
+            collectionSet = DataSet.FULL_SET;
+            inactivateAllCSRFields();
+            currentCollection = indexOfNewCollection;
+            totalCollections = collectionsList.size();
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+            collectionSaveAction = null;
+            UserAlert.displayInformationAlert("Save successful", 
+                "The CSR has been successfully saved to the database.");
+        }
+    }
+    
+    private Collection makeNewCollectionObjectFromUI() {
+        csrID = tfCSRID.getText();
+        bookingDate = dpBookingDate.getValue();
+        collectionDate = dpCollectionDate.getValue();
+        csrCustomerID = tfCSRCustomerID.getText();
+        csrAddressID = tfCSRAddressID.getText();
+        isCancelled = false;
+        return makeNewCollectionObject();
+    }
+    
+    private boolean addCollectionToDB(Collection newCollection) {
+        boolean collectionAddedToDatabase = false;
+        boolean collectionItemsAddedToDatabase = false;
+        csrID = newCollection.getCsrID();
+        bookingDate = newCollection.getBookingDate();
+        collectionDate = newCollection.getCollectionDate();
+        csrCustomerID = newCollection.getCsrCustomerID();
+        csrAddressID = newCollection.getCsrAddressID();
+        isCancelled = newCollection.isCancelled();
+        if (dpCollectionDate.getValue() == null ||
+            dpCollectionDate.getValue().toString().isEmpty() ||
+            dpBookingDate.getValue() == null ||
+            dpBookingDate.getValue().toString().isEmpty() || 
+            CSRItemsList.size() <= 0){
+            UserAlert.displayWarningAlert("Incorrect CSR Details", 
+                "Please check the CSR details. A new CSR record must "
+                + "have a Booking Date, Collection Date, and items to collect.");
+        } else {
+            try (Connection connection = DatabaseHandler.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(
+                        String.format("INSERT INTO collections "
+                                + "(collection_id, booking_date, collection_date, "
+                                + "csr_customer_id, csr_address_id, cancelled) "
+                                + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
+                                csrID, bookingDate, collectionDate, 
+                                csrCustomerID, csrAddressID, 
+                                isCancelled ? "1" : "0"));
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    collectionAddedToDatabase = true;
+                } else {
+                    UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                            + "been unable to save the Collection Service Request "
+                            + "to the database. Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the collection "
+                        + "has not been saved to the database.");
+            }
+            collectionItemsAddedToDatabase = addCollectionItemsToDB();
+        }
+        return collectionAddedToDatabase && collectionItemsAddedToDatabase;
+    }
+    
+    private boolean addCollectionItemsToDB() {
+        boolean collectionItemsAddedToDatabase = false;
+        int numberOfRowsInserted = 0;
+        for (CollectionItem item : CSRItemsList) {
+            itemID = item.getItemID();
+            itemCollectionID = item.getItemCollectionID();
+            itemCategory = item.getItemCategory();
+            itemType = item.getItemType();
+            itemDescription = item.getItemDescription();
+            itemQuantity = item.getItemQuantity();
+            try (Connection connection = DatabaseHandler.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(
+                    String.format("INSERT INTO items "
+                            + "(item_id, item_collection_id, category, "
+                            + "type, description, quantity) "
+                            + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
+                            itemID, itemCollectionID, itemCategory, 
+                            itemType, itemDescription, itemQuantity));
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    numberOfRowsInserted += rowsInserted;
+                } else {
+                    UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                            + "been unable to save the CSR Item to the database. "
+                            + "Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the CSR Items "
+                    + "have not been saved to the database.");
+            }
+        }
+        if (numberOfRowsInserted == CSRItemsList.size()) {
+            collectionItemsAddedToDatabase = true;
+            itemsList.addAll(CSRItemsList);
+        } else {
+            UserAlert.displayErrorAlert("Items Not Saved", "Some "
+                    + "items in this CSR have not been saved to the database. "
+                    + "Check the CSR record and add the required items.");
+        }
+        return collectionItemsAddedToDatabase;
+    }
     
 /*  ==================================================================
     COLLECTION ITEMS
     =================================================================== */    
     private ArrayList<CollectionItem> itemsList= new ArrayList();
+    private ArrayList<CollectionItem> CSRItemsList = new ArrayList<>();
     private String itemID;
     private String itemCollectionID;
     private String itemCategory;

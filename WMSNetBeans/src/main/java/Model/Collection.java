@@ -60,7 +60,7 @@ public class Collection {
         this.csrAddressID = csrAddressID;
     }
 
-    public boolean isIsCancelled() {
+    public boolean isCancelled() {
         return isCancelled;
     }
 
