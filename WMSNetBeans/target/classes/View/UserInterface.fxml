@@ -99,6 +99,19 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
+                  <TextField fx:id="tfCustomerSearch" promptText="Enter Last Name or Mobile ..." GridPane.columnIndex="4" GridPane.columnSpan="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" onAction="#btnCustomerSearchClick" prefWidth="160.0" text="🔍" GridPane.columnIndex="7">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#btnViewAllCustomersClick" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
@@ -107,7 +120,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="👤   Search" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnNewCustomerClick" prefWidth="160.0" text="+   New" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -115,15 +128,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#btnNewCustomerClick" prefWidth="160.0" text="+   New" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#btnEditCustomerClick" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnEditCustomerClick" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -266,6 +271,16 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
+                  <TextField GridPane.columnIndex="13" GridPane.columnSpan="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="🔍" GridPane.columnIndex="16">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#btnViewAllAddressesClick" prefWidth="160.0" text="📄   View All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
@@ -274,15 +289,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="🏠   Search" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#btnNewAddressClick" prefWidth="160.0" text="+   New" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#btnNewAddressClick" prefWidth="160.0" text="+   New" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -445,6 +452,19 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
+                  <TextField GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="11">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="🔍" GridPane.columnIndex="7" GridPane.rowIndex="11">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
                   <Button mnemonicParsing="false" prefWidth="160.0" text="📄   View All" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <font>
                         <Font size="14.0" />
@@ -453,7 +473,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="👤   Search" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -461,7 +481,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   New" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -469,7 +489,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="❌   Cancel CSR" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -477,15 +497,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="❌   Cancel CSR" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="12">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Label fx:id="lblCancelled" alignment="CENTER" prefWidth="400.0" text="CANCELLED" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="3">
+                  <Label fx:id="lblCancelled" alignment="CENTER" prefWidth="400.0" text="CANCELLED" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="12" GridPane.rowSpan="3">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -543,97 +555,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label prefWidth="160.0" text="Add Item" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label prefWidth="160.0" text="Item Category" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <ComboBox fx:id="cbItemCategory" onAction="#itemCategorySelect" prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="16">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </ComboBox>
-                  <Label prefWidth="160.0" text="Item Type" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="17" GridPane.valignment="BOTTOM">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <ComboBox fx:id="cbItemType" prefWidth="150.0" promptText="Select Item Category" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="18">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </ComboBox>
-                  <Label prefWidth="160.0" text="Item Description" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="19" GridPane.valignment="BOTTOM">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField fx:id="tfItemDescription" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="20">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <Label prefWidth="160.0" text="Quantity" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="21" GridPane.valignment="BOTTOM">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField fx:id="tfQuantity" prefWidth="160.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="22">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   Add Item" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="24">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Label prefWidth="160.0" text="Remove Item" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label prefWidth="160.0" text="Item Number" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField fx:id="tfItemNumber" prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="16">
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="-   Remove Item" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="18">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Label prefWidth="160.0" text="CSR Summary" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TableView fx:id="tvCSRSummary" prefHeight="180.0" prefWidth="638.0" GridPane.columnIndex="6" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
+                  <TableView fx:id="tvCSRSummary" prefHeight="180.0" prefWidth="638.0" GridPane.columnIndex="2" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
                     <columns>
                       <TableColumn maxWidth="35.0" minWidth="35.0" prefWidth="35.0" text="#" />
                       <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Category" />
@@ -645,7 +567,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TableView>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -653,7 +575,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Pane prefWidth="160.0" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                  <Pane prefWidth="160.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <children>
                         <TextField fx:id="tfCurrentCSR" prefWidth="50.0">
                            <font>
@@ -675,7 +597,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Pane>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="Next   ➡" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -683,7 +605,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="12" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="💾   Save" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -691,6 +613,93 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
+                  <Label prefWidth="160.0" text="Add Item" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label prefWidth="160.0" text="Item Category" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox fx:id="cbItemCategory" onAction="#itemCategorySelect" prefWidth="150.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="16">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Item Type" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="17" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox fx:id="cbItemType" prefWidth="150.0" promptText="Select Item Category" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="18">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefWidth="160.0" text="Item Description" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="19" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfItemDescription" prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="20">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label prefWidth="160.0" text="Quantity" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="21" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfQuantity" prefWidth="160.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="22">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   Add Item" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="Remove Item" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label prefWidth="160.0" text="Item Number" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfItemNumber" prefWidth="160.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="16">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" prefWidth="160.0" text="-   Remove Item" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="18">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefWidth="160.0" text="CSR Items" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </Label>
                </children>
             </GridPane>
          </children>
