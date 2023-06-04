@@ -271,15 +271,18 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="13" GridPane.columnSpan="3">
+                  <TextField fx:id="tfAddressSearch" promptText="Enter address, Subburb or Postal Code ..." GridPane.columnIndex="13" GridPane.columnSpan="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="🔍" GridPane.columnIndex="16">
+                  <Button mnemonicParsing="false" onAction="#btnAddressSearchClick" prefWidth="160.0" text="🔍" GridPane.columnIndex="16">
                      <font>
                         <Font size="14.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#btnViewAllAddressesClick" prefWidth="160.0" text="📄   View All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>

@@ -78,7 +78,6 @@ public class UserInterfaceController implements Initializable {
     private Customer iteratingCustomer;
     @FXML
     private TextField tfCustomerSearch;
-    private String customerSearchText;
     @FXML
     private TextField tfCustomerID;
     private String customerID;
@@ -156,22 +155,28 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnCustomerSearchClick() {
-        btnViewAllAddressesClick();
-        customerSet = DataSet.SEARCH_SET;
-        tempCustomersList.clear();
         String searchString = tfCustomerSearch.getText();
-        searchLastName(searchString);
-        searchMobile(searchString);
-        if (!tempCustomersList.isEmpty()) {
-            inactivateAllCustomerFields();
-            currentCustomer = 0;
-            totalCustomers = tempCustomersList.size();
-            displayCustomerRecord(currentCustomer);
-            refreshCustomerPaginationNumbers();
+        if (!searchString.isEmpty()) {
+            btnViewAllCustomersClick();
+            customerSet = DataSet.SEARCH_SET;
+            tempCustomersList.clear();
+            searchLastName(searchString);
+            searchMobile(searchString);
+            if (!tempCustomersList.isEmpty()) {
+                inactivateAllCustomerFields();
+                currentCustomer = 0;
+                totalCustomers = tempCustomersList.size();
+                displayCustomerRecord(currentCustomer);
+                refreshCustomerPaginationNumbers();
+            } else {
+                UserAlert.displayWarningAlert("No customer found", "No "
+                    + "customers found with the entered details. Please try again "
+                    + "or try another action.");
+            }
         } else {
-            UserAlert.displayWarningAlert("No customer found", "No "
-                + "customers found with the entered details. Please try again "
-                + "or try another action.");
+            UserAlert.displayWarningAlert("Empty search parameters", 
+                "Please enter search terms in the Customer search box and "
+                + "try again.");
         }
     }
     
@@ -504,6 +509,9 @@ public class UserInterfaceController implements Initializable {
     private int totalAddresses;
     private DataSet addressSet;
     private SaveAction addressSaveAction;
+    private Address iteratingAddress;
+    @FXML
+    private TextField tfAddressSearch;
     @FXML
     private TextField tfAddressID;
     private String addressID;
@@ -588,6 +596,70 @@ public class UserInterfaceController implements Initializable {
                 country,
                 addressType
         );
+    }
+    
+        @FXML
+    public void btnAddressSearchClick() {
+        String searchString = tfAddressSearch.getText();
+        if (!searchString.isEmpty()) {
+            btnViewAllAddressesClick();
+            addressSet = DataSet.SEARCH_SET;
+            tempAddressList.clear();
+            searchStreetAddress(searchString);
+            searchSuburb(searchString);
+            searchPostalCode(searchString);
+            if (!tempAddressList.isEmpty()) {
+                inactivateAllAddressFields();
+                currentAddress = 0;
+                totalAddresses = tempAddressList.size();
+                displayAddressRecord(currentAddress);
+                refreshAddressPaginationNumbers();
+            } else {
+                UserAlert.displayWarningAlert("No address found", "No "
+                    + "addresses found with the entered details. Please try again "
+                    + "or try another action.");
+            }
+        } else {
+            UserAlert.displayWarningAlert("Empty search parameters", 
+                "Please enter search terms in the Address search box and "
+                + "try again.");
+        }
+    }
+    
+    private void searchStreetAddress(String searchString) {
+        String iteratingStreetAddress;
+        for (int i = 0; i < addressList.size(); i++) {
+            iteratingAddress = addressList.get(i);
+            iteratingStreetAddress = iteratingAddress.getStreetAddress();
+            if (iteratingStreetAddress.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempAddressList.add(iteratingAddress);
+            }
+        }
+    }
+    
+    private void searchSuburb(String searchString) {
+        String iteratingSuburb;
+        for (int i = 0; i < addressList.size(); i++) {
+            iteratingAddress = addressList.get(i);
+            iteratingSuburb = iteratingAddress.getSuburb();
+            if (iteratingSuburb.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempAddressList.add(iteratingAddress);
+            }
+        }
+    }
+    
+    private void searchPostalCode(String searchString) {
+        String iteratingPostalCode;
+        for (int i = 0; i < addressList.size(); i++) {
+            iteratingAddress = addressList.get(i);
+            iteratingPostalCode = iteratingAddress.getPostalCode();
+            if (iteratingPostalCode.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempAddressList.add(iteratingAddress);
+            }
+        }
     }
     
     @FXML
