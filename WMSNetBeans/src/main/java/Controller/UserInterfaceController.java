@@ -1040,8 +1040,8 @@ public class UserInterfaceController implements Initializable {
     }
     
     private void refreshCollectionsPaginationNumbers() {
-        tfCurrentCSR.setText(currentAddress + 1 + "");
-        tfTotalCSRs.setText(totalAddresses + "");
+        tfCurrentCSR.setText(currentCollection + 1 + "");
+        tfTotalCSRs.setText(totalCollections + "");
     }
     
     @FXML
@@ -1170,6 +1170,44 @@ public class UserInterfaceController implements Initializable {
             UserAlert.displayWarningAlert("No CSR Item Selected",
                 "Please enter the ID of an item in the CSR Items table to "
                 + "remove and try again.");
+        }
+    }
+    
+    @FXML
+    public void btnPreviousCollectionClick() {
+        if (!DataValidation.isEmpty(tfCSRID.getText())) {
+            inactivateAllCSRFields();
+            if (currentCollection == 0) {
+                currentCollection = totalCollections - 1;
+            } else {
+                currentCollection--;
+            }
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("Previous Record Error", 
+                "You have not selected a Collection Service Request yet. "
+                + "To be able to view the previous collectoin, you must select a "
+                + "collection first.");
+        }
+    }
+    
+    @FXML
+    public void btnNextCollectionClick() {
+        if (!DataValidation.isEmpty(tfCSRID.getText())) {
+            inactivateAllCSRFields();
+            if (currentCollection + 1 == totalCollections) {
+                currentCollection = 0;
+            } else {
+                currentCollection++;
+            }
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("Next Record Error", 
+                "You have not selected a Collection Service Request yet. "
+                + "To be able to view the next collection, you must select a "
+                + "collection first.");
         }
     }
     
