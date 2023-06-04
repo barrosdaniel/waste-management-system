@@ -1238,9 +1238,11 @@ public class UserInterfaceController implements Initializable {
                     break;
                 }
             }
+            collectionSet = DataSet.FULL_SET;
+            inactivateAllCSRFields();
             currentCollection = indexOfNewCollection;
-            displayCollectionRecord(currentCollection);
             totalCollections = collectionsList.size();
+            displayCollectionRecord(currentCollection);
             refreshCollectionsPaginationNumbers();
             collectionSaveAction = null;
             UserAlert.displayInformationAlert("Save successful", 
@@ -1267,32 +1269,41 @@ public class UserInterfaceController implements Initializable {
         csrCustomerID = newCollection.getCsrCustomerID();
         csrAddressID = newCollection.getCsrAddressID();
         isCancelled = newCollection.isCancelled();
-        try (Connection connection = DatabaseHandler.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    String.format("INSERT INTO collections "
-                            + "(collection_id, booking_date, collection_date, "
-                            + "csr_customer_id, csr_address_id, cancelled) "
-                            + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
-                            csrID, bookingDate, collectionDate, 
-                            csrCustomerID, csrAddressID, 
-                            isCancelled ? "1" : "0"));
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                collectionAddedToDatabase = true;
-            } else {
-                UserAlert.displayErrorAlert("Database Error", "eWMS has "
-                        + "been unable to save the Collection Service Request "
-                        + "to the database. Check the data entered and try again.");
+        if (dpCollectionDate.getValue() == null ||
+            dpCollectionDate.getValue().toString().isEmpty() ||
+            dpBookingDate.getValue() == null ||
+            dpBookingDate.getValue().toString().isEmpty() || 
+            CSRItemsList.size() <= 0){
+            UserAlert.displayWarningAlert("Incorrect CSR Details", 
+                "Please check the CSR details. A new CSR record must "
+                + "have a Booking Date, Collection Date, and items to collect.");
+        } else {
+            try (Connection connection = DatabaseHandler.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(
+                        String.format("INSERT INTO collections "
+                                + "(collection_id, booking_date, collection_date, "
+                                + "csr_customer_id, csr_address_id, cancelled) "
+                                + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
+                                csrID, bookingDate, collectionDate, 
+                                csrCustomerID, csrAddressID, 
+                                isCancelled ? "1" : "0"));
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    collectionAddedToDatabase = true;
+                } else {
+                    UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                            + "been unable to save the Collection Service Request "
+                            + "to the database. Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the collection "
+                        + "has not been saved to the database.");
             }
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            UserAlert.displayErrorAlert("Database connection error", 
-                "There was a database connection error and the collection "
-                    + "has not been saved to the database.");
+            collectionItemsAddedToDatabase = addCollectionItemsToDB();
         }
-        collectionItemsAddedToDatabase = addCollectionItemsToDB();
-        
         return collectionAddedToDatabase && collectionItemsAddedToDatabase;
     }
     
