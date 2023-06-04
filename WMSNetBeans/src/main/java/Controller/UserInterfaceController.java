@@ -59,7 +59,7 @@ public class UserInterfaceController implements Initializable {
     }
     
     private void inactivateAllFields() {
-        lblCancelled.setVisible(false);
+        lblCancelled.setText("");
         inactivateAllCustomerFields();
         inactivateAllAddressFields();
         inactivateAllCSRFields();
@@ -964,6 +964,7 @@ public class UserInterfaceController implements Initializable {
     }
     
     private void loadAllCSRsFromDB() {
+        int cancelled = -1;
         try (Connection connection = DatabaseHandler.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * "
@@ -979,7 +980,8 @@ public class UserInterfaceController implements Initializable {
                         DateTimeFormatter.ISO_LOCAL_DATE);
                 csrCustomerID = queryResults.getString("csr_customer_id");
                 csrAddressID = queryResults.getString("csr_address_id");
-                isCancelled = Boolean.parseBoolean(queryResults.getString("cancelled"));
+                cancelled = Integer.parseInt(queryResults.getString("cancelled"));
+                isCancelled = (cancelled == 1) ? true : false;
                 Collection newCollection = makeNewCollectionObject();
                 collectionsList.add(newCollection);
             }
@@ -1028,9 +1030,9 @@ public class UserInterfaceController implements Initializable {
         tfCSRCustomerID.setText(collection.getCsrCustomerID());
         tfCSRAddressID.setText(collection.getCsrAddressID());
         if (collection.isCancelled()) {
-            lblCancelled.setVisible(true);
+            lblCancelled.setText("CANCELLED");
         } else {
-            lblCancelled.setVisible(false);
+            lblCancelled.setText("");
         }
         taCSRItems.clear();
         FieldAction.printTableHeaders(taCSRItems);
