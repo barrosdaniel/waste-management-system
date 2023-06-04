@@ -1063,8 +1063,6 @@ public class UserInterfaceController implements Initializable {
         tfCSRCustomerID.setText(tfCustomerID.getText());
         tfCSRAddressID.clear();
         tfCSRAddressID.setText(tfCustomerAddressID.getText());
-        taCSRItems.clear();
-        FieldAction.printTableHeaders(taCSRItems);
         cbItemCategory.setValue("");
         FieldAction.activateComboBox(cbItemCategory);
         cbItemType.setValue("");
@@ -1078,6 +1076,9 @@ public class UserInterfaceController implements Initializable {
         int newTotalCollections = collectionsList.size() + 1;
         tfCurrentCSR.setText(newTotalCollections + "");
         tfTotalCSRs.setText(newTotalCollections + "");
+        taCSRItems.clear();
+        FieldAction.printTableHeaders(taCSRItems);
+        CSRItemsList.clear();
         CSRItemCounter = 0;
     }
     
@@ -1216,37 +1217,33 @@ public class UserInterfaceController implements Initializable {
         if (collectionSaveAction.equals(SaveAction.NEW)) {
             addNewCollection();
         } else {
-            // May be considered for future implementation.
-            // editAddress();
+            // editCollection();
         }
     }
     
     private void addNewCollection() {
         Collection newCollection = makeNewCollectionObjectFromUI();
         boolean collectionAddedToDB = addCollectionToDB(newCollection);
-//        if (collectionAddedToDB) {
-//            inactivateAllCollectionFields();
-//        
-//        
-//            addressList.clear();
-//            loadAllAddressesFromDB();
-//            int indexOfNewAddress = -1;
-//            for (int i = 0; i < addressList.size(); i++) {
-//                if (addressList.get(i).getAddressID().equals(
-//                        newAddress.getAddressID())) {
-//                    indexOfNewAddress = i;
-//                    break;
-//                }
-//            }
-//            currentAddress = indexOfNewAddress;
-//            displayAddressRecord(currentAddress);
-//            totalAddresses = addressList.size();
-//            refreshAddressPaginationNumbers();
-//            addressSaveAction = null;
-//            UserAlert.displayInformationAlert("Save successful", 
-//                    "The address has been successfully saved to the "
-//                            + "database.");
-//        }
+        if (collectionAddedToDB) {
+            inactivateAllCSRFields();
+            collectionsList.clear();
+            loadAllCSRsFromDB();
+            int indexOfNewCollection = -1;
+            for (int i = 0; i < collectionsList.size(); i++) {
+                if (collectionsList.get(i).getCsrID().equals(
+                        newCollection.getCsrID())) {
+                    indexOfNewCollection = i;
+                    break;
+                }
+            }
+            currentCollection = indexOfNewCollection;
+            displayCollectionRecord(currentCollection);
+            totalCollections = collectionsList.size();
+            refreshCollectionsPaginationNumbers();
+            collectionSaveAction = null;
+            UserAlert.displayInformationAlert("Save successful", 
+                "The CSR has been successfully saved to the database.");
+        }
     }
     
     private Collection makeNewCollectionObjectFromUI() {
@@ -1275,7 +1272,8 @@ public class UserInterfaceController implements Initializable {
                             + "csr_customer_id, csr_address_id, cancelled) "
                             + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
                             csrID, bookingDate, collectionDate, 
-                            csrCustomerID, csrAddressID, isCancelled));
+                            csrCustomerID, csrAddressID, 
+                            isCancelled ? "1" : "0"));
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 collectionAddedToDatabase = true;
@@ -1291,8 +1289,52 @@ public class UserInterfaceController implements Initializable {
                 "There was a database connection error and the collection "
                     + "has not been saved to the database.");
         }
-//        collectionItemsAddedToDatabase = addCollectionItemsToDB();
-        return collectionAddedToDatabase;
+        collectionItemsAddedToDatabase = addCollectionItemsToDB();
+        return collectionAddedToDatabase && collectionItemsAddedToDatabase;
+    }
+    
+    private boolean addCollectionItemsToDB() {
+        boolean collectionItemsAddedToDatabase = false;
+        int numberOfRowsInserted = 0;
+        for (CollectionItem item : CSRItemsList) {
+            itemID = item.getItemID();
+            itemCollectionID = item.getItemCollectionID();
+            itemCategory = item.getItemCategory();
+            itemType = item.getItemType();
+            itemDescription = item.getItemDescription();
+            itemQuantity = item.getItemQuantity();
+            try (Connection connection = DatabaseHandler.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(
+                    String.format("INSERT INTO items "
+                            + "(item_id, item_collection_id, category, "
+                            + "type, description, quantity) "
+                            + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
+                            itemID, itemCollectionID, itemCategory, 
+                            itemType, itemDescription, itemQuantity));
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    numberOfRowsInserted += rowsInserted;
+                } else {
+                    UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                            + "been unable to save the CSR Item to the database. "
+                            + "Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the CSR Items "
+                    + "have not been saved to the database.");
+            }
+        }
+        if (numberOfRowsInserted == CSRItemsList.size()) {
+            collectionItemsAddedToDatabase = true;
+        } else {
+            UserAlert.displayErrorAlert("Items Not Saved", "Some "
+                    + "items in this CSR have not been saved to the database. "
+                    + "Check the CSR record and add the required items.");
+        }
+        return collectionItemsAddedToDatabase;
     }
     
 /*  ==================================================================
