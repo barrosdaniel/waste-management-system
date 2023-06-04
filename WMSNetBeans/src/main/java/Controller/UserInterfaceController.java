@@ -75,6 +75,10 @@ public class UserInterfaceController implements Initializable {
     private int totalCustomers;
     private DataSet customerSet;
     private SaveAction customerSaveAction;
+    private Customer iteratingCustomer;
+    @FXML
+    private TextField tfCustomerSearch;
+    private String customerSearchText;
     @FXML
     private TextField tfCustomerID;
     private String customerID;
@@ -148,6 +152,50 @@ public class UserInterfaceController implements Initializable {
                 email,
                 customerAddressID
         );
+    }
+    
+    @FXML
+    public void btnCustomerSearchClick() {
+        btnViewAllAddressesClick();
+        customerSet = DataSet.SEARCH_SET;
+        tempCustomersList.clear();
+        String searchString = tfCustomerSearch.getText();
+        searchLastName(searchString);
+        searchMobile(searchString);
+        if (!tempCustomersList.isEmpty()) {
+            inactivateAllCustomerFields();
+            currentCustomer = 0;
+            totalCustomers = tempCustomersList.size();
+            displayCustomerRecord(currentCustomer);
+            refreshCustomerPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("No customer found", "No "
+                + "customers found with the entered details. Please try again "
+                + "or try another action.");
+        }
+    }
+    
+    private void searchLastName(String searchString) {
+        String iteratingCustomerLastName;
+        for (int i = 0; i < customersList.size(); i++) {
+            iteratingCustomer = customersList.get(i);
+            iteratingCustomerLastName = iteratingCustomer.getLastName();
+            if (iteratingCustomerLastName.toLowerCase().contains(
+                    searchString.toLowerCase())) {
+                tempCustomersList.add(iteratingCustomer);
+            }
+        }
+    }
+    
+    private void searchMobile(String searchString) {
+        String iteratingCustomerMobile;
+        for (int i = 0; i < customersList.size(); i++) {
+            iteratingCustomer = customersList.get(i);
+            iteratingCustomerMobile = iteratingCustomer.getMobile();
+            if (iteratingCustomerMobile.contains(searchString)) {
+                tempCustomersList.add(iteratingCustomer);
+            }
+        }
     }
     
     @FXML
