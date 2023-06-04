@@ -5,8 +5,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -558,18 +556,6 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TableView fx:id="tvCSRSummary" prefHeight="180.0" prefWidth="638.0" GridPane.columnIndex="2" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
-                    <columns>
-                      <TableColumn maxWidth="35.0" minWidth="35.0" prefWidth="35.0" text="#" />
-                      <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Category" />
-                        <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Type" />
-                        <TableColumn maxWidth="335.0" minWidth="335.0" prefWidth="335.0" text="Description" />
-                        <TableColumn maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Quantity" />
-                    </columns>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </GridPane.margin>
-                  </TableView>
                   <Button mnemonicParsing="false" prefWidth="160.0" text="⬅   Previous" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <font>
                         <Font size="14.0" />
@@ -664,7 +650,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="+   Add Item" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="24">
+                  <Button mnemonicParsing="false" onAction="#addItemToCSR" prefWidth="160.0" text="+   Add Item" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="24">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -690,7 +676,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="-   Remove Item" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="18">
+                  <Button mnemonicParsing="false" onAction="#removeItemFromCSR" prefWidth="160.0" text="-   Remove Item" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.rowIndex="18">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -703,6 +689,14 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
+                  <TextArea fx:id="taCSRItems" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="8" GridPane.rowIndex="15" GridPane.rowSpan="8">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font>
+                  </TextArea>
                </children>
             </GridPane>
          </children>

@@ -2,7 +2,6 @@ package View;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -20,6 +19,11 @@ public class FieldAction {
     public static void inactivateTextArea(TextArea ta) {
         ta.setEditable(false);
         ta.setStyle("-fx-control-inner-background: #F1F1F1;");
+    }
+    
+    public static void activateTextArea(TextArea ta) {
+        ta.setEditable(true);
+        ta.setStyle("-fx-control-inner-background: #FFFFFF;");
     }
     
     public static void inactivateComboBox(ComboBox cb) {
@@ -42,13 +46,16 @@ public class FieldAction {
         dp.setStyle("-fx-control-inner-background: #FFFFFF;");
     }
     
-    public static void inactivateTableView(TableView tv) {
-        tv.setEditable(false);
-        tv.setStyle("-fx-control-inner-background: #F1F1F1;");
+    public static void printTableHeaders(TextArea taCSRItems) {
+        String headerString = String.format(
+            "%-10s %-20s %-20s %-32s %-8s %n",
+            "ID", "Category", "Type", "Description", "Quantity");
+        headerString += String.format(
+            "%-10s %-20s %-20s %-32s %-8s %n",
+            "==========", 
+            "====================", "====================", 
+            "================================", "========");
+        taCSRItems.setText(headerString);
     }
     
-    public static void activateTableView(TableView tv) {
-        tv.setEditable(false);
-        tv.setStyle("-fx-control-inner-background: #FFFFFF;");
-    }
 }

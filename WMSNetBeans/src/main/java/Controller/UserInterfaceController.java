@@ -30,7 +30,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -902,6 +901,7 @@ public class UserInterfaceController implements Initializable {
     private DataSet collectionSet;
     private SaveAction collectionSaveAction;
     private Address iteratingCollection;
+    private int CSRItemCounter;
     @FXML
     private TextField tfCSRID;
     private String csrID;
@@ -922,16 +922,20 @@ public class UserInterfaceController implements Initializable {
     private boolean isCancelled;
     @FXML
     private ComboBox cbItemCategory;
+    private String CSRItemCategory;
     @FXML
     private ComboBox cbItemType;
+    private String CSRItemType;
     @FXML
     private TextField tfItemDescription;
+    private String CSRItemDescription;
     @FXML
     private TextField tfQuantity;
+    private String CSRQuantity;
     @FXML
     private TextField tfItemNumber;
     @FXML
-    private TableView tvCSRSummary;
+    private TextArea taCSRItems;
     @FXML
     private TextField tfCurrentCSR;
     @FXML
@@ -948,7 +952,7 @@ public class UserInterfaceController implements Initializable {
         FieldAction.inactivateTextField(tfItemDescription);
         FieldAction.inactivateTextField(tfQuantity);
         FieldAction.inactivateTextField(tfItemNumber);
-        FieldAction.inactivateTableView(tvCSRSummary);
+        FieldAction.inactivateTextArea(taCSRItems);
         FieldAction.inactivateTextField(tfCurrentCSR);
         FieldAction.inactivateTextField(tfTotalCSRs);
     }
@@ -1018,11 +1022,11 @@ public class UserInterfaceController implements Initializable {
         tfCSRCustomerID.setText(tfCustomerID.getText());
         tfCSRAddressID.clear();
         tfCSRAddressID.setText(tfCustomerAddressID.getText());
-        tvCSRSummary.getItems().clear();
-        FieldAction.activateTableView(tvCSRSummary);
-        cbItemCategory.getSelectionModel().clearSelection();
+        taCSRItems.clear();
+        FieldAction.printTableHeaders(taCSRItems);
+        cbItemCategory.setValue("");
         FieldAction.activateComboBox(cbItemCategory);
-        cbItemType.getSelectionModel().clearSelection();
+        cbItemType.setValue("");
         FieldAction.activateComboBox(cbItemType);
         tfItemDescription.clear();
         FieldAction.activateTextField(tfItemDescription);
@@ -1033,6 +1037,7 @@ public class UserInterfaceController implements Initializable {
         int newTotalCollections = collectionsList.size() + 1;
         tfCurrentCSR.setText(newTotalCollections + "");
         tfTotalCSRs.setText(newTotalCollections + "");
+        CSRItemCounter = 0;
     }
     
     private int getNextCollectionID() {
@@ -1047,13 +1052,91 @@ public class UserInterfaceController implements Initializable {
         return maxCollectionID + 1;
     }
     
+    @FXML
+    public void addItemToCSR() {
+        int nextCSRItemID = getNextCSRItemID();
+        csrID = tfCSRID.getText();
+        CSRItemCategory = cbItemCategory.getValue().toString();
+        CSRItemType = cbItemType.getValue().toString();
+        CSRItemDescription = tfItemDescription.getText();
+        CSRQuantity = tfQuantity.getText();
+        if (CSRItemCategory.isEmpty() || CSRItemType.isEmpty() ||
+                CSRItemDescription.isEmpty() || CSRQuantity.isEmpty()) {
+            UserAlert.displayWarningAlert("Enter All Item Fiels", 
+                    "To add an item to the CSR, please enter the item's "
+                    + "category, type, description, and quantity.");
+        } else {
+            CollectionItem newItem = new CollectionItem(nextCSRItemID + "",
+                csrID, CSRItemCategory, CSRItemType,
+                CSRItemDescription, CSRQuantity);
+            CSRItemsList.add(newItem);
+            taCSRItems.setText("");
+            FieldAction.printTableHeaders(taCSRItems);
+            printCSRItems();
+            clearItemControls();
+        }
+    }
     
+    private void clearItemControls() {
+        cbItemCategory.setValue("");
+        cbItemType.setValue("");
+        tfItemDescription.setText("");
+        tfQuantity.setText("");
+        tfItemNumber.setText("");
+    }
     
+    private int getNextCSRItemID() {
+        int maxCSRItemID = 0;
+        int currentCSRItemID = -1;
+        for (CollectionItem collectionItem : itemsList) {
+            currentCSRItemID = Integer.parseInt(collectionItem.getItemID());
+            if (currentCSRItemID > maxCSRItemID) {
+                maxCSRItemID = currentCSRItemID;
+            }
+        }
+        for (CollectionItem collectionItem : CSRItemsList) {
+            currentCSRItemID = Integer.parseInt(collectionItem.getItemID());
+            if (currentCSRItemID > maxCSRItemID) {
+                maxCSRItemID = currentCSRItemID;
+            }
+        }
+        return maxCSRItemID + 1;
+    }
+    
+    private void printCSRItems() {
+        for (CollectionItem item : CSRItemsList) {
+            taCSRItems.appendText(item.getString());
+        }
+    }
+    
+    @FXML
+    public void removeItemFromCSR() {
+        String itemToRemoveID = tfItemNumber.getText();
+        if (!itemToRemoveID.isEmpty()) {
+            int indexToRemove = -1;
+            for (int i = 0; i < CSRItemsList.size(); i++) {
+                if (CSRItemsList.get(i).getItemID().equals(itemToRemoveID)) {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+            CSRItemsList.remove(indexToRemove);
+            taCSRItems.setText("");
+            FieldAction.printTableHeaders(taCSRItems);
+            printCSRItems();
+            clearItemControls();
+        } else {
+            UserAlert.displayWarningAlert("No CSR Item Selected",
+                "Please enter the ID of an item in the CSR Items table to "
+                + "remove and try again.");
+        }
+    }
     
 /*  ==================================================================
     COLLECTION ITEMS
     =================================================================== */    
     private ArrayList<CollectionItem> itemsList= new ArrayList();
+    private ArrayList<CollectionItem> CSRItemsList = new ArrayList<>();
     private String itemID;
     private String itemCollectionID;
     private String itemCategory;
