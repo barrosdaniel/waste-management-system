@@ -59,7 +59,7 @@ public class UserInterfaceController implements Initializable {
     }
     
     private void inactivateAllFields() {
-        lblCancelled.setText("");
+        lblCancelled.setVisible(false);
         inactivateAllCustomerFields();
         inactivateAllAddressFields();
         inactivateAllCSRFields();
@@ -1029,6 +1029,8 @@ public class UserInterfaceController implements Initializable {
         tfCSRAddressID.setText(collection.getCsrAddressID());
         if (collection.isCancelled()) {
             lblCancelled.setVisible(true);
+        } else {
+            lblCancelled.setVisible(false);
         }
         taCSRItems.clear();
         FieldAction.printTableHeaders(taCSRItems);
@@ -1104,7 +1106,7 @@ public class UserInterfaceController implements Initializable {
         CSRQuantity = tfQuantity.getText();
         if (CSRItemCategory.isEmpty() || CSRItemType.isEmpty() ||
                 CSRItemDescription.isEmpty() || CSRQuantity.isEmpty()) {
-            UserAlert.displayWarningAlert("Enter All Item Fiels", 
+            UserAlert.displayWarningAlert("Enter All Item Fields", 
                     "To add an item to the CSR, please enter the item's "
                     + "category, type, description, and quantity.");
         } else {
@@ -1290,6 +1292,7 @@ public class UserInterfaceController implements Initializable {
                     + "has not been saved to the database.");
         }
         collectionItemsAddedToDatabase = addCollectionItemsToDB();
+        
         return collectionAddedToDatabase && collectionItemsAddedToDatabase;
     }
     
@@ -1329,6 +1332,7 @@ public class UserInterfaceController implements Initializable {
         }
         if (numberOfRowsInserted == CSRItemsList.size()) {
             collectionItemsAddedToDatabase = true;
+            itemsList.addAll(CSRItemsList);
         } else {
             UserAlert.displayErrorAlert("Items Not Saved", "Some "
                     + "items in this CSR have not been saved to the database. "
