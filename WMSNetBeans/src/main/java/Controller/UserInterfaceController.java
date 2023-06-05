@@ -705,11 +705,15 @@ public class UserInterfaceController implements Initializable {
         LocalDate collectionDate = null;
         int collectionYear = 0;
         String collectionAddressID;
+        Collection collection = null;
         for (int i = 0; i < collectionsList.size(); i++) {
-            collectionDate = collectionsList.get(i).getCollectionDate();
+            collection = collectionsList.get(i);
+            collectionDate = collection.getCollectionDate();
             collectionYear = collectionDate.getYear();
-            collectionAddressID = collectionsList.get(i).getCsrAddressID();
-            if (collectionYear == year && collectionAddressID.equals(addressID)) {
+            collectionAddressID = collection.getCsrAddressID();
+            if (collectionYear == year && 
+                    collectionAddressID.equals(addressID) &&
+                    !(collection.isCancelled())) {
                 numberOfCollections++;
             }
         }
@@ -766,8 +770,8 @@ public class UserInterfaceController implements Initializable {
             tfCustomerAddressID.setText(tfAddressID.getText());
         } else {
             UserAlert.displayWarningAlert("Incorrect Fill Address Use",
-                    "To fill in a customer address, you must be adding a "
-                            + "new customer.");
+                "To fill in a customer address, you must be adding a "
+                + "new customer.");
         }
         String addressString = getAddressString(tfCustomerAddressID.getText());
         taAddress.setText(addressString);
