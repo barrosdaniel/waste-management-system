@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -36,6 +37,7 @@ import javafx.scene.control.TextField;
 public class UserInterfaceController implements Initializable {
     
     private final int MAX_ANNUAL_COLLECTIONS = 2;
+    private final int COLLECTION_DELAY = 14;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -703,11 +705,15 @@ public class UserInterfaceController implements Initializable {
         LocalDate collectionDate = null;
         int collectionYear = 0;
         String collectionAddressID;
+        Collection collection = null;
         for (int i = 0; i < collectionsList.size(); i++) {
-            collectionDate = collectionsList.get(i).getCollectionDate();
+            collection = collectionsList.get(i);
+            collectionDate = collection.getCollectionDate();
             collectionYear = collectionDate.getYear();
-            collectionAddressID = collectionsList.get(i).getCsrAddressID();
-            if (collectionYear == year && collectionAddressID.equals(addressID)) {
+            collectionAddressID = collection.getCsrAddressID();
+            if (collectionYear == year && 
+                    collectionAddressID.equals(addressID) &&
+                    !(collection.isCancelled())) {
                 numberOfCollections++;
             }
         }
@@ -764,8 +770,8 @@ public class UserInterfaceController implements Initializable {
             tfCustomerAddressID.setText(tfAddressID.getText());
         } else {
             UserAlert.displayWarningAlert("Incorrect Fill Address Use",
-                    "To fill in a customer address, you must be adding a "
-                            + "new customer.");
+                "To fill in a customer address, you must be adding a "
+                + "new customer.");
         }
         String addressString = getAddressString(tfCustomerAddressID.getText());
         taAddress.setText(addressString);
@@ -894,14 +900,16 @@ public class UserInterfaceController implements Initializable {
 /*  ==================================================================
     COLLECTION SERVICE REQUEST - CSR
 =================================================================== */
-    private ArrayList<Collection> collectionsList= new ArrayList();
-    private ArrayList<Collection> tempCollectionsList= new ArrayList();
+    private ArrayList<Collection> collectionsList = new ArrayList();
+    private ArrayList<Collection> tempCollectionsList = new ArrayList();
     private int currentCollection;
     private int totalCollections;
     private DataSet collectionSet;
     private SaveAction collectionSaveAction;
     private Address iteratingCollection;
     private int CSRItemCounter;
+    @FXML
+    private TextField tfCSRSearch;
     @FXML
     private TextField tfCSRID;
     private String csrID;
@@ -1006,6 +1014,74 @@ public class UserInterfaceController implements Initializable {
     }
     
     @FXML
+    public void btnSearchCSRClick() {
+        collectionSet = DataSet.SEARCH_SET;
+        tempCollectionsList.clear();
+        String searchString = tfCSRSearch.getText();
+        if (searchString.isEmpty()) {
+            UserAlert.displayWarningAlert("Incorrect Search", 
+                "To search for a collection, please enter search parameters "
+                + "and try again.");
+            return;
+        }
+        getMatchingCollectionsFromDB(searchString);
+        inactivateAllCSRFields();
+        if (tempCollectionsList.size() > 0) {
+            currentCollection = 0;
+            totalCollections = tempCollectionsList.size();
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("No Collections Found", 
+                "No collections found with the search parameters "
+                + "provided. Please try again.");
+        }
+    }
+    
+    public void getMatchingCollectionsFromDB(String searchString) {
+        int cancelled = -1;
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT collection_id, booking_date, collection_date, "
+                + "csr_customer_id, csr_address_id, cancelled "
+                + "FROM collections "
+                + "JOIN customers "
+                + "ON collections.csr_customer_id = customers.customer_id "
+                + "JOIN addresses "
+                + "ON collections.csr_customer_id = addresses.address_id "
+                + "WHERE addresses.street_address LIKE '%" + searchString + "%' "
+                + "OR addresses.suburb LIKE '%" + searchString + "%' "
+                + "OR addresses.state LIKE '%" + searchString + "%' "
+                + "OR addresses.postal_code LIKE '%" + searchString + "%' "
+                + "OR customers.first_name LIKE '%" + searchString + "%' "
+                + "OR customers.last_name LIKE '%" + searchString + "%' "
+                + "OR collections.collection_id LIKE '%" + searchString + "%' "
+                + "ORDER BY collections.collection_id;"                   
+            );
+            ResultSet queryResults = statement.executeQuery();
+            while (queryResults.next()) {
+                csrID = queryResults.getString("collection_id");
+                bookingDate = LocalDate.parse(queryResults.getString("booking_date"),
+                        DateTimeFormatter.ISO_LOCAL_DATE);
+                collectionDate = LocalDate.parse(queryResults.getString("collection_date"),
+                        DateTimeFormatter.ISO_LOCAL_DATE);
+                csrCustomerID = queryResults.getString("csr_customer_id");
+                csrAddressID = queryResults.getString("csr_address_id");
+                cancelled = Integer.parseInt(queryResults.getString("cancelled"));
+                isCancelled = (cancelled == 1) ? true : false;
+                Collection newCollection = makeNewCollectionObject();
+                tempCollectionsList.add(newCollection);
+            }
+            statement.close();
+            queryResults.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database Error", "ERROR: Unable to load "
+                    + "addresses from the database.");
+        }
+    }
+            
+    @FXML
     public void btnViewAllCollectionsClick() {
         collectionSet = DataSet.FULL_SET;
         inactivateAllCSRFields();
@@ -1056,13 +1132,22 @@ public class UserInterfaceController implements Initializable {
                 + "select a Customer first.");
             return;
         }
+        btnViewAddressClick();
+        int availableCollections = Integer.parseInt(tfAvailableCollections.getText());
+        if (availableCollections <= 0) {
+            UserAlert.displayWarningAlert("No Available Collections", 
+                "You cannot create a new collections record for this "
+                + "address. The address has already had 2 collections this "
+                + "calendar year.");
+            return;
+        }
         collectionSaveAction = SaveAction.NEW;
         int nextCollectionID = getNextCollectionID();
         tfCSRID.setText(nextCollectionID + "");
-        dpBookingDate.setValue(null);
-        FieldAction.activateDatePicker(dpBookingDate);
-        dpCollectionDate.setValue(null);
-        FieldAction.activateDatePicker(dpCollectionDate);
+        bookingDate = LocalDate.now();
+        dpBookingDate.setValue(bookingDate);
+        collectionDate = bookingDate.plusDays(COLLECTION_DELAY);
+        dpCollectionDate.setValue(collectionDate);
         tfCSRCustomerID.clear();
         tfCSRCustomerID.setText(tfCustomerID.getText());
         tfCSRAddressID.clear();
@@ -1176,6 +1261,65 @@ public class UserInterfaceController implements Initializable {
                 "Please enter the ID of an item in the CSR Items table to "
                 + "remove and try again.");
         }
+    }
+    
+    @FXML
+    public void btnCancelCSRClick() {
+        if (tfCSRID.getText() == null || tfCSRID.getText().isEmpty()){
+            UserAlert.displayWarningAlert("Incorrect CSR Details", 
+                "No CSR selected. Please select a CSR to cancel.");
+            return;
+        }
+        ButtonType userChoice = UserAlert.displayConfirmationAlert(
+            "Cancellation Confirmation", "Are you sure you want to "
+            + "cancel this CSR?");
+        if (userChoice == ButtonType.CANCEL) {
+            return;
+        }
+        csrID = tfCSRID.getText();
+        boolean cancelledInDB = cancelCSRInDB();
+        int indexOfCancelledCSR = -1;
+        if (cancelledInDB) {
+            for (int i = 0; i < collectionsList.size(); i++) {
+                if (collectionsList.get(i).getCsrID().equals(csrID)) {
+                    collectionsList.get(i).setIsCancelled(true);
+                    indexOfCancelledCSR = i;
+                }
+            }
+        }
+        collectionSet = DataSet.FULL_SET;
+        inactivateAllCSRFields();
+        currentCollection = indexOfCancelledCSR;
+        totalCollections = collectionsList.size();
+        displayCollectionRecord(currentCollection);
+        refreshCollectionsPaginationNumbers();
+        collectionSaveAction = null;
+    }
+    
+    private boolean cancelCSRInDB() {
+        boolean cancelledInDB = false;
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                String.format("UPDATE collections "
+                    + "SET cancelled = 1 "
+                    + "WHERE collection_id = '%s';",
+                    csrID));
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                cancelledInDB = true;
+            } else {
+                UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                    + "been unable to save the Collection Service Request "
+                    + "to the database. Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the collection "
+                    + "has not been updated in the database.");
+            }
+        return cancelledInDB;
     }
     
     @FXML
