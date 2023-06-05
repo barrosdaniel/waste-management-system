@@ -1,6 +1,7 @@
 package View;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class UserAlert {
     public static void renderAlert(String title, String message, Alert alert) {
@@ -22,5 +23,12 @@ public class UserAlert {
     public static void displayInformationAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         renderAlert(title, message, alert);
+    }
+    
+    public static ButtonType displayConfirmationAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        return alert.showAndWait().orElse(ButtonType.CANCEL);
     }
 }

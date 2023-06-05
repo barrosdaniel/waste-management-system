@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -1176,6 +1177,65 @@ public class UserInterfaceController implements Initializable {
                 "Please enter the ID of an item in the CSR Items table to "
                 + "remove and try again.");
         }
+    }
+    
+    @FXML
+    public void btnCancelCSRClick() {
+        if (tfCSRID.getText() == null || tfCSRID.getText().isEmpty()){
+            UserAlert.displayWarningAlert("Incorrect CSR Details", 
+                "No CSR selected. Please select a CSR to cancel.");
+            return;
+        }
+        ButtonType userChoice = UserAlert.displayConfirmationAlert(
+            "Cancellation Confirmation", "Are you sure you want to "
+            + "cancel this CSR?");
+        if (userChoice == ButtonType.CANCEL) {
+            return;
+        }
+        csrID = tfCSRID.getText();
+        boolean cancelledInDB = cancelCSRInDB();
+        int indexOfCancelledCSR = -1;
+        if (cancelledInDB) {
+            for (int i = 0; i < collectionsList.size(); i++) {
+                if (collectionsList.get(i).getCsrID().equals(csrID)) {
+                    collectionsList.get(i).setIsCancelled(true);
+                    indexOfCancelledCSR = i;
+                }
+            }
+        }
+        collectionSet = DataSet.FULL_SET;
+        inactivateAllCSRFields();
+        currentCollection = indexOfCancelledCSR;
+        totalCollections = collectionsList.size();
+        displayCollectionRecord(currentCollection);
+        refreshCollectionsPaginationNumbers();
+        collectionSaveAction = null;
+    }
+    
+    private boolean cancelCSRInDB() {
+        boolean cancelledInDB = false;
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                String.format("UPDATE collections "
+                    + "SET cancelled = 1 "
+                    + "WHERE collection_id = '%s';",
+                    csrID));
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                cancelledInDB = true;
+            } else {
+                UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                    + "been unable to save the Collection Service Request "
+                    + "to the database. Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the collection "
+                    + "has not been updated in the database.");
+            }
+        return cancelledInDB;
     }
     
     @FXML
