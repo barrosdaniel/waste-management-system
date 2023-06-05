@@ -37,6 +37,7 @@ import javafx.scene.control.TextField;
 public class UserInterfaceController implements Initializable {
     
     private final int MAX_ANNUAL_COLLECTIONS = 2;
+    private final int COLLECTION_DELAY = 14;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -1130,10 +1131,10 @@ public class UserInterfaceController implements Initializable {
         collectionSaveAction = SaveAction.NEW;
         int nextCollectionID = getNextCollectionID();
         tfCSRID.setText(nextCollectionID + "");
-        dpBookingDate.setValue(null);
-        FieldAction.activateDatePicker(dpBookingDate);
-        dpCollectionDate.setValue(null);
-        FieldAction.activateDatePicker(dpCollectionDate);
+        bookingDate = LocalDate.now();
+        dpBookingDate.setValue(bookingDate);
+        collectionDate = bookingDate.plusDays(COLLECTION_DELAY);
+        dpCollectionDate.setValue(collectionDate);
         tfCSRCustomerID.clear();
         tfCSRCustomerID.setText(tfCustomerID.getText());
         tfCSRAddressID.clear();
