@@ -895,14 +895,16 @@ public class UserInterfaceController implements Initializable {
 /*  ==================================================================
     COLLECTION SERVICE REQUEST - CSR
 =================================================================== */
-    private ArrayList<Collection> collectionsList= new ArrayList();
-    private ArrayList<Collection> tempCollectionsList= new ArrayList();
+    private ArrayList<Collection> collectionsList = new ArrayList();
+    private ArrayList<Collection> tempCollectionsList = new ArrayList();
     private int currentCollection;
     private int totalCollections;
     private DataSet collectionSet;
     private SaveAction collectionSaveAction;
     private Address iteratingCollection;
     private int CSRItemCounter;
+    @FXML
+    private TextField tfCSRSearch;
     @FXML
     private TextField tfCSRID;
     private String csrID;
@@ -1006,6 +1008,74 @@ public class UserInterfaceController implements Initializable {
         );
     }
     
+    @FXML
+    public void btnSearchCSRClick() {
+        collectionSet = DataSet.SEARCH_SET;
+        tempCollectionsList.clear();
+        String searchString = tfCSRSearch.getText();
+        if (searchString.isEmpty()) {
+            UserAlert.displayWarningAlert("Incorrect Search", 
+                "To search for a collection, please enter search parameters "
+                + "and try again.");
+            return;
+        }
+        getMatchingCollectionsFromDB(searchString);
+        inactivateAllCSRFields();
+        if (tempCollectionsList.size() > 0) {
+            currentCollection = 0;
+            totalCollections = tempCollectionsList.size();
+            displayCollectionRecord(currentCollection);
+            refreshCollectionsPaginationNumbers();
+        } else {
+            UserAlert.displayWarningAlert("No Collections Found", 
+                "No collections found with the search parameters "
+                + "provided. Please try again.");
+        }
+    }
+    
+    public void getMatchingCollectionsFromDB(String searchString) {
+        int cancelled = -1;
+        try (Connection connection = DatabaseHandler.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT collection_id, booking_date, collection_date, "
+                + "csr_customer_id, csr_address_id, cancelled "
+                + "FROM collections "
+                + "JOIN customers "
+                + "ON collections.csr_customer_id = customers.customer_id "
+                + "JOIN addresses "
+                + "ON collections.csr_customer_id = addresses.address_id "
+                + "WHERE addresses.street_address LIKE '%" + searchString + "%' "
+                + "OR addresses.suburb LIKE '%" + searchString + "%' "
+                + "OR addresses.state LIKE '%" + searchString + "%' "
+                + "OR addresses.postal_code LIKE '%" + searchString + "%' "
+                + "OR customers.first_name LIKE '%" + searchString + "%' "
+                + "OR customers.last_name LIKE '%" + searchString + "%' "
+                + "OR collections.collection_id LIKE '%" + searchString + "%' "
+                + "ORDER BY collections.collection_id;"                   
+            );
+            ResultSet queryResults = statement.executeQuery();
+            while (queryResults.next()) {
+                csrID = queryResults.getString("collection_id");
+                bookingDate = LocalDate.parse(queryResults.getString("booking_date"),
+                        DateTimeFormatter.ISO_LOCAL_DATE);
+                collectionDate = LocalDate.parse(queryResults.getString("collection_date"),
+                        DateTimeFormatter.ISO_LOCAL_DATE);
+                csrCustomerID = queryResults.getString("csr_customer_id");
+                csrAddressID = queryResults.getString("csr_address_id");
+                cancelled = Integer.parseInt(queryResults.getString("cancelled"));
+                isCancelled = (cancelled == 1) ? true : false;
+                Collection newCollection = makeNewCollectionObject();
+                tempCollectionsList.add(newCollection);
+            }
+            statement.close();
+            queryResults.close();
+            connection.close();
+        } catch (Exception e) {
+            UserAlert.displayErrorAlert("Database Error", "ERROR: Unable to load "
+                    + "addresses from the database.");
+        }
+    }
+            
     @FXML
     public void btnViewAllCollectionsClick() {
         collectionSet = DataSet.FULL_SET;

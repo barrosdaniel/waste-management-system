@@ -269,7 +269,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField fx:id="tfAddressSearch" promptText="Enter address, Subburb or Postal Code ..." GridPane.columnIndex="13" GridPane.columnSpan="3">
+                  <TextField fx:id="tfAddressSearch" promptText="Enter address, Suburb or Postal Code ..." GridPane.columnIndex="13" GridPane.columnSpan="3">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -453,12 +453,12 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField promptText="Enter Address, Last Name, or CSR ID ..." GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="11">
+                  <TextField fx:id="tfCSRSearch" promptText="Enter Address, Name, or CSR ID ..." GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="11">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="🔍" GridPane.columnIndex="7" GridPane.rowIndex="11">
+                  <Button mnemonicParsing="false" onAction="#btnSearchCSRClick" prefWidth="160.0" text="🔍" GridPane.columnIndex="7" GridPane.rowIndex="11">
                      <font>
                         <Font size="14.0" />
                      </font>
