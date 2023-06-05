@@ -1128,6 +1128,15 @@ public class UserInterfaceController implements Initializable {
                 + "select a Customer first.");
             return;
         }
+        btnViewAddressClick();
+        int availableCollections = Integer.parseInt(tfAvailableCollections.getText());
+        if (availableCollections <= 0) {
+            UserAlert.displayWarningAlert("No Available Collections", 
+                "You cannot create a new collections record for this "
+                + "address. The address has already had 2 collections this "
+                + "calendar year.");
+            return;
+        }
         collectionSaveAction = SaveAction.NEW;
         int nextCollectionID = getNextCollectionID();
         tfCSRID.setText(nextCollectionID + "");
