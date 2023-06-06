@@ -1251,6 +1251,11 @@ public class UserInterfaceController implements Initializable {
                     break;
                 }
             }
+            for (CollectionItem item : itemsList) {
+                if (item.getItemID().equals(itemToRemoveID)) {
+                    CSREditRemoveItemsList.add(item);
+                }
+            }
             CSRItemsList.remove(indexToRemove);
             taCSRItems.setText("");
             FieldAction.printTableHeaders(taCSRItems);
@@ -1261,6 +1266,36 @@ public class UserInterfaceController implements Initializable {
                 "Please enter the ID of an item in the CSR Items table to "
                 + "remove and try again.");
         }
+    }
+    
+    @FXML
+    public void btnEditCSRClick() {
+        if (tfCSRID.getText().isEmpty()) {
+            UserAlert.displayWarningAlert("No Collection Selected", 
+                "Please select a collection service request to edit and "
+                + "try again.");
+            return;
+        }
+        collectionSaveAction = SaveAction.EDIT;
+        CSREditRemoveItemsList.clear();
+        getAllCSRItems();
+        activateCSRItemsFields();
+    }
+    
+    private void getAllCSRItems() {
+        for (CollectionItem item : itemsList) {
+            if (item.getItemCollectionID().equals(tfCSRID.getText())) {
+                CSRItemsList.add(item);
+            }
+        }
+    }
+    
+    private void activateCSRItemsFields() {
+        FieldAction.activateComboBox(cbItemCategory);
+        FieldAction.activateComboBox(cbItemType);
+        FieldAction.activateTextField(tfItemDescription);
+        FieldAction.activateTextField(tfQuantity);
+        FieldAction.activateTextField(tfItemNumber);
     }
     
     @FXML
@@ -1366,7 +1401,7 @@ public class UserInterfaceController implements Initializable {
             if (collectionSaveAction.equals(SaveAction.NEW)) {
                 addNewCollection();
             } else {
-                // editCollection();
+                saveEditedCollectionItems();
             }
         } else {
             UserAlert.displayWarningAlert("Incorrect Save Action", 
@@ -1504,11 +1539,54 @@ public class UserInterfaceController implements Initializable {
         return collectionItemsAddedToDatabase;
     }
     
+    private void saveEditedCollectionItems() {
+        boolean deletedCSRItemsFromDB = deleteCSRItemsFromDB();
+        if (deletedCSRItemsFromDB) {
+            itemsList.removeAll(CSREditRemoveItemsList);
+        }
+        // saveOnlyNewItemsToDB();
+        // UserAlert.displayInformationAlert("Save Successful", "The "
+        //     + "changes have been saved successfully to the database.");
+    }
+    
+    private boolean deleteCSRItemsFromDB() {
+        boolean deletedCSRItemsFromDB = false;
+        int itemsRemoved = 0;
+        int idToDelete = -1;
+        for (CollectionItem item : CSREditRemoveItemsList) {
+            idToDelete = Integer.parseInt(item.getItemID());
+            try (Connection connection = DatabaseHandler.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(
+                    String.format("DELETE FROM items "
+                    + "WHERE item_id = " + idToDelete + ";"));
+                int rowsDeleted = statement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    itemsRemoved++;
+                } else {
+                    UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                        + "been unable to delete a collection item record from "
+                        + "the database. Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the collection "
+                    + "item has not been deleted from the database.");
+            }
+        }
+        if (CSREditRemoveItemsList.size() == itemsRemoved) {
+            deletedCSRItemsFromDB = true;
+        }
+        return deletedCSRItemsFromDB;
+    }
+    
 /*  ==================================================================
     COLLECTION ITEMS
     =================================================================== */    
     private ArrayList<CollectionItem> itemsList= new ArrayList();
     private ArrayList<CollectionItem> CSRItemsList = new ArrayList<>();
+    private ArrayList<CollectionItem> CSREditRemoveItemsList = new ArrayList<>();
     private String itemID;
     private String itemCollectionID;
     private String itemCategory;
