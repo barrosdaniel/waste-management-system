@@ -374,6 +374,17 @@ public class UserInterfaceController implements Initializable {
         // record or editing a customer record. The save button should not action
         // any logic if the user is neither creating a new customer
         // record or editing a customer record.
+        if (tfFirstName.getText().isEmpty() ||
+                tfLastName.getText().isEmpty() ||
+                tfMobile.getText().isEmpty() ||
+                tfEmail.getText().isEmpty() ||
+                tfCustomerAddressID.getText().isEmpty()) {
+            UserAlert.displayWarningAlert("Empty Customer Fields", 
+                "Please ensure that the new customer's fields First Name, "
+                + "Last Name, Mobile, Email, and Customer Address ID are filled-in "
+                + "and try again.");
+            return;
+        }
         if (tfMobile.isEditable()) {
             if (customerSaveAction.equals(SaveAction.NEW)) {
                 addNewCustomer();
@@ -847,6 +858,18 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnSaveAddressClick() {
+        if (tfStreetAddress.getText().isEmpty() ||
+                tfSuburb.getText().isEmpty() ||
+                cbState.getValue() == null ||
+                tfPostalCode.getText().isEmpty() ||
+                cbCountry.getValue() == null ||
+                cbAddressType.getValue() == null) {
+            UserAlert.displayWarningAlert("Empty Address Fields", 
+                "Please ensure that the new address's fields Street Address, "
+                + "Suburb, State, Postal Code, Country, and Address Type are "
+                + "filled-in and try again.");
+            return;
+        }
         if (addressSaveAction.equals(SaveAction.NEW)) {
             addNewAddress();
         } else {
