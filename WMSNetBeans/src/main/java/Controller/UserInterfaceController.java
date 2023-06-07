@@ -680,6 +680,7 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnViewAllAddressesClick() {
+        addressSaveAction = null;
         addressSet = DataSet.FULL_SET;
         inactivateAllAddressFields();
         if (addressList.size() > 0) {
@@ -794,6 +795,13 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnPreviousAddressClick() {
+        if (addressSaveAction == SaveAction.NEW || 
+                addressSaveAction == SaveAction.EDIT) {
+            UserAlert.displayWarningAlert("Incorrect Button Use", 
+                "Please click the View All button before you can view the "
+                + "previous or next address.");
+            return;
+        }
         if (!DataValidation.isEmpty(tfAddressID.getText())) {
             inactivateAllAddressFields();
             if (currentAddress == 0) {
@@ -813,6 +821,13 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnNextAddressClick() {
+        if (addressSaveAction == SaveAction.NEW || 
+                addressSaveAction == SaveAction.EDIT) {
+            UserAlert.displayWarningAlert("Incorrect Button Use", 
+                "Please click the View All button before you can view the "
+                + "previous or next address.");
+            return;
+        }
         if (!DataValidation.isEmpty(tfAddressID.getText())) {
             inactivateAllAddressFields();
             if (currentAddress + 1 == totalAddresses) {
@@ -1098,6 +1113,7 @@ public class UserInterfaceController implements Initializable {
             
     @FXML
     public void btnViewAllCollectionsClick() {
+        collectionSaveAction = null;
         collectionSet = DataSet.FULL_SET;
         inactivateAllCSRFields();
         if (collectionsList.size() > 0) {
@@ -1375,6 +1391,13 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnPreviousCollectionClick() {
+        if (collectionSaveAction == SaveAction.NEW || 
+                collectionSaveAction == SaveAction.EDIT) {
+            UserAlert.displayWarningAlert("Incorrect Button Use", 
+                "Please click the View All button before you can view the "
+                + "previous or next CSR.");
+            return;
+        }
         if (!DataValidation.isEmpty(tfCSRID.getText())) {
             inactivateAllCSRFields();
             if (currentCollection == 0) {
@@ -1394,6 +1417,13 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnNextCollectionClick() {
+        if (collectionSaveAction == SaveAction.NEW || 
+                collectionSaveAction == SaveAction.EDIT) {
+            UserAlert.displayWarningAlert("Incorrect Button Use", 
+                "Please click the View All button before you can view the "
+                + "previous or next CSR.");
+            return;
+        }
         if (!DataValidation.isEmpty(tfCSRID.getText())) {
             inactivateAllCSRFields();
             if (currentCollection + 1 == totalCollections) {
