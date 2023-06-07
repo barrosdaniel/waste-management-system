@@ -482,7 +482,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                  <Button mnemonicParsing="false" onAction="#btnEditCSRClick" prefWidth="160.0" text="✏   Edit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <font>
                         <Font size="14.0" />
                      </font>

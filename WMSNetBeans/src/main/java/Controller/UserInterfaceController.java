@@ -1251,6 +1251,11 @@ public class UserInterfaceController implements Initializable {
                     break;
                 }
             }
+            for (CollectionItem item : itemsList) {
+                if (item.getItemID().equals(itemToRemoveID)) {
+                    CSREditRemoveItemsList.add(item);
+                }
+            }
             CSRItemsList.remove(indexToRemove);
             taCSRItems.setText("");
             FieldAction.printTableHeaders(taCSRItems);
@@ -1261,6 +1266,37 @@ public class UserInterfaceController implements Initializable {
                 "Please enter the ID of an item in the CSR Items table to "
                 + "remove and try again.");
         }
+    }
+    
+    @FXML
+    public void btnEditCSRClick() {
+        if (tfCSRID.getText().isEmpty()) {
+            UserAlert.displayWarningAlert("No Collection Selected", 
+                "Please select a collection service request to edit and "
+                + "try again.");
+            return;
+        }
+        collectionSaveAction = SaveAction.EDIT;
+        CSREditRemoveItemsList.clear();
+        CSREditAddItemsList.clear();
+        getAllCSRItems();
+        activateCSRItemsFields();
+    }
+    
+    private void getAllCSRItems() {
+        for (CollectionItem item : itemsList) {
+            if (item.getItemCollectionID().equals(tfCSRID.getText())) {
+                CSRItemsList.add(item);
+            }
+        }
+    }
+    
+    private void activateCSRItemsFields() {
+        FieldAction.activateComboBox(cbItemCategory);
+        FieldAction.activateComboBox(cbItemType);
+        FieldAction.activateTextField(tfItemDescription);
+        FieldAction.activateTextField(tfQuantity);
+        FieldAction.activateTextField(tfItemNumber);
     }
     
     @FXML
@@ -1366,7 +1402,7 @@ public class UserInterfaceController implements Initializable {
             if (collectionSaveAction.equals(SaveAction.NEW)) {
                 addNewCollection();
             } else {
-                // editCollection();
+                saveEditedCollectionItems();
             }
         } else {
             UserAlert.displayWarningAlert("Incorrect Save Action", 
@@ -1462,7 +1498,13 @@ public class UserInterfaceController implements Initializable {
     private boolean addCollectionItemsToDB() {
         boolean collectionItemsAddedToDatabase = false;
         int numberOfRowsInserted = 0;
-        for (CollectionItem item : CSRItemsList) {
+        ArrayList<CollectionItem> list = new ArrayList<>();
+        if (collectionSaveAction == SaveAction.NEW) {
+            list = CSRItemsList;
+        } else {
+            list = CSREditAddItemsList;
+        }
+        for (CollectionItem item : list) {
             itemID = item.getItemID();
             itemCollectionID = item.getItemCollectionID();
             itemCategory = item.getItemCategory();
@@ -1482,8 +1524,8 @@ public class UserInterfaceController implements Initializable {
                     numberOfRowsInserted += rowsInserted;
                 } else {
                     UserAlert.displayErrorAlert("Database Error", "eWMS has "
-                            + "been unable to save the CSR Item to the database. "
-                            + "Check the data entered and try again.");
+                        + "been unable to save a CSR Item to the database. "
+                        + "Check the data entered and try again.");
                 }
                 statement.close();
                 connection.close();
@@ -1493,9 +1535,8 @@ public class UserInterfaceController implements Initializable {
                     + "have not been saved to the database.");
             }
         }
-        if (numberOfRowsInserted == CSRItemsList.size()) {
+        if (numberOfRowsInserted == list.size()) {
             collectionItemsAddedToDatabase = true;
-            itemsList.addAll(CSRItemsList);
         } else {
             UserAlert.displayErrorAlert("Items Not Saved", "Some "
                     + "items in this CSR have not been saved to the database. "
@@ -1504,11 +1545,89 @@ public class UserInterfaceController implements Initializable {
         return collectionItemsAddedToDatabase;
     }
     
+    private void saveEditedCollectionItems() {
+        boolean changesMade = false;
+        boolean deletedCSRItemsFromDB = deleteCSRItemsFromDB();
+        if (deletedCSRItemsFromDB) {
+            itemsList.removeAll(CSREditRemoveItemsList);
+            changesMade = true;
+        }
+        populateListOfItemsToAdd();
+        if (CSREditAddItemsList.size() > 0) {
+            boolean savedToDB = addCollectionItemsToDB();
+            if (savedToDB) {
+                itemsList.addAll(CSREditAddItemsList);
+                changesMade = true;
+            }
+        }
+        if (changesMade) {
+            UserAlert.displayInformationAlert("Save Successful", "The "
+                + "changes have been saved successfully.");
+        } else {
+            UserAlert.displayInformationAlert("Save Unsuccessful", "There "
+                + "was a problem and the changes have not been saved.");
+        }
+    }
+    
+    private boolean deleteCSRItemsFromDB() {
+        boolean deletedCSRItemsFromDB = false;
+        int itemsRemoved = 0;
+        int idToDelete = -1;
+        for (CollectionItem item : CSREditRemoveItemsList) {
+            idToDelete = Integer.parseInt(item.getItemID());
+            try (Connection connection = DatabaseHandler.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(
+                    String.format("DELETE FROM items "
+                    + "WHERE item_id = " + idToDelete + ";"));
+                int rowsDeleted = statement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    itemsRemoved++;
+                } else {
+                    UserAlert.displayErrorAlert("Database Error", "eWMS has "
+                        + "been unable to delete a collection item record from "
+                        + "the database. Check the data entered and try again.");
+                }
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                UserAlert.displayErrorAlert("Database connection error", 
+                    "There was a database connection error and the collection "
+                    + "item has not been deleted from the database.");
+            }
+        }
+        if (CSREditRemoveItemsList.size() == itemsRemoved) {
+            deletedCSRItemsFromDB = true;
+        }
+        return deletedCSRItemsFromDB;
+    }
+    
+    private void populateListOfItemsToAdd() {
+        int itemInCSRID = -1;
+        int itemInListID = -1;
+        boolean isItemInList = false;
+        for (CollectionItem itemInCSR : CSRItemsList) {
+            itemInCSRID = Integer.parseInt(itemInCSR.getItemID());
+            for (CollectionItem itemInList : itemsList) {
+                itemInListID = Integer.parseInt(itemInList.getItemID());
+                if (itemInCSRID == itemInListID) {
+                    isItemInList = true;
+                    break;
+                }
+            }
+            if (!isItemInList) {
+                CSREditAddItemsList.add(itemInCSR);
+            }
+            isItemInList = false;
+        }
+    }
+    
 /*  ==================================================================
     COLLECTION ITEMS
     =================================================================== */    
     private ArrayList<CollectionItem> itemsList= new ArrayList();
     private ArrayList<CollectionItem> CSRItemsList = new ArrayList<>();
+    private ArrayList<CollectionItem> CSREditRemoveItemsList = new ArrayList<>();
+    private ArrayList<CollectionItem> CSREditAddItemsList = new ArrayList<>();
     private String itemID;
     private String itemCollectionID;
     private String itemCategory;
