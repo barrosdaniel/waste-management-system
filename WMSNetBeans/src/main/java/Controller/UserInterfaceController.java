@@ -206,6 +206,7 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnViewAllCustomersClick() {
+        customerSaveAction = null;
         customerSet = DataSet.FULL_SET;
         inactivateAllCustomerFields();
         if (customersList.size() > 0) {
@@ -317,6 +318,13 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnPreviousCustomerClick() {
+        if (customerSaveAction == SaveAction.NEW || 
+                customerSaveAction == SaveAction.EDIT) {
+            UserAlert.displayWarningAlert("Incorrect Button Use", 
+                "Please click the View All button before you can view the "
+                + "previous or next customer.");
+            return;
+        }
         if (!DataValidation.isEmpty(tfCustomerID.getText())) {
             inactivateAllCustomerFields();
             if (currentCustomer == 0) {
@@ -336,6 +344,13 @@ public class UserInterfaceController implements Initializable {
     
     @FXML
     public void btnNextCustomerClick() {
+        if (customerSaveAction == SaveAction.NEW || 
+                customerSaveAction == SaveAction.EDIT) {
+            UserAlert.displayWarningAlert("Incorrect Button Use", 
+                "Please click the View All button before you can view the "
+                + "previous or next customer.");
+            return;
+        }
         if (!DataValidation.isEmpty(tfCustomerID.getText())) {
             inactivateAllCustomerFields();
             if (currentCustomer + 1 == totalCustomers) {
